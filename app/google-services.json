@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "670366878138",
+    "firebase_url": "https://pasarapp-e68a5.firebaseio.com",
+    "project_id": "pasarapp-e68a5",
+    "storage_bucket": "pasarapp-e68a5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:670366878138:android:ea8febc3a10ba93106f583",
+        "android_client_info": {
+          "package_name": "com.adut.pasar.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "670366878138-nbbhrr151umbp0tai9u3hohb44h0uhbm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.adut.pasar.app",
+            "certificate_hash": "a5823862beb7b06677c2a3ce2599e2809a85658c"
+          }
+        },
+        {
+          "client_id": "670366878138-rpjgefedtjb8gqn96a10ed2l633ie2bc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMPeXhh06xL2cLmG-THMN69hErIjSHFlU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "670366878138-rpjgefedtjb8gqn96a10ed2l633ie2bc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
