@@ -3,20 +3,24 @@ package com.adut.pasar.app.base
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.adut.pasar.app.MyApplication
+import com.adut.pasar.app.view.LoadingDialog
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 open abstract class BaseFragment : Fragment(),BaseViewMethodInterface {
 
-    private val component by lazy { MyApplication.appComponent }
+    protected val component by lazy { MyApplication.appComponent }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private var wrActivity: WeakReference<Activity>? = null
+
+    private lateinit var loadingDialog : LoadingDialog
 
     protected fun getApplication(): MyApplication {
         return MyApplication.getInstance()
@@ -30,10 +34,14 @@ open abstract class BaseFragment : Fragment(),BaseViewMethodInterface {
         (activity as BaseActivity).addFragment(fragment)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        loadingDialog = LoadingDialog(requireContext())
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateUI()
-        setUICallbacks()
     }
 
     override fun onAttach(context: Context) {
@@ -44,6 +52,13 @@ open abstract class BaseFragment : Fragment(),BaseViewMethodInterface {
         }
 
         super.onAttach(context)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        setUICallbacks()
+        initObserver()
     }
 
     override fun onAttach(activity: Activity) {
@@ -62,5 +77,22 @@ open abstract class BaseFragment : Fragment(),BaseViewMethodInterface {
             }
         }
         return false
+    }
+
+    override fun onPause() {
+        super.onPause()
+        dismissLoadingDialog()
+    }
+
+    fun showLoadingDialog(){
+        if(!loadingDialog.isShowing){
+            loadingDialog.show()
+        }
+    }
+
+    fun dismissLoadingDialog(){
+        if(loadingDialog.isShowing){
+            loadingDialog.dismiss()
+        }
     }
 }

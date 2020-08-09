@@ -1,10 +1,29 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="ButtonShort">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:paddingLeft">36dp</item>
+        <item name="android:paddingRight">36dp</item>
+    </style>
+
+    <style name="ButtonGreen" parent="ButtonShort">
+        <item name="android:background">@drawable/button_selector</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="ButtonRed" parent="ButtonShort">
+        <item name="android:background">@drawable/button_red_selector</item>
+        <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
 </resources>

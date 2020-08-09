@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.adut.pasar.app.R
 import com.adut.pasar.app.feature.exception.UncaughtExceptionActivity
+import com.adut.pasar.app.view.LoadingDialog
 
 abstract class BaseActivity  : AppCompatActivity(),BaseViewMethodInterface {
     val TRANSITION_IN_IN = R.anim.slide_in_left
@@ -15,11 +16,15 @@ abstract class BaseActivity  : AppCompatActivity(),BaseViewMethodInterface {
     val TRANSITION_OUT_IN = R.anim.slide_in_right
     val TRANSITION_OUT_OUT = R.anim.slide_out_left
 
+    private lateinit var loadingDialog : LoadingDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         Thread.setDefaultUncaughtExceptionHandler(UncaughtExceptionActivity(this, Thread.getDefaultUncaughtExceptionHandler()))
         overridePendingTransition(TRANSITION_IN_IN, TRANSITION_IN_OUT)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         super.onCreate(savedInstanceState)
+
+        loadingDialog = LoadingDialog(this)
 
         setContentView(getLayout())
         initObserver()
@@ -84,5 +89,22 @@ abstract class BaseActivity  : AppCompatActivity(),BaseViewMethodInterface {
     override fun finish() {
         super.finish()
         overridePendingTransition(TRANSITION_OUT_IN, TRANSITION_OUT_OUT)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        dismissLoadingDialog()
+    }
+
+    fun showLoadingDialog(){
+        if(!loadingDialog.isShowing){
+            loadingDialog.show()
+        }
+    }
+
+    fun dismissLoadingDialog(){
+        if(loadingDialog.isShowing){
+            loadingDialog.dismiss()
+        }
     }
 }

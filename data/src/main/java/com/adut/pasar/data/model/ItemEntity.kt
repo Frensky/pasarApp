@@ -27,9 +27,18 @@ data class ItemEntity(
     var sellPrice: Long? = 0,
 
     @SerializedName("barCode_id")
-    var barCodeId: String? = null
+    var barCodeId: String? = null,
+
+    @SerializedName("is_bookmarked")
+    var isBookMark: Boolean? = false,
+
+    @SerializedName("distributor")
+    var distributor: String? = "",
+
+    @SerializedName("notes")
+    var notes: String? = ""
 
 ) : ModelEntity<Item> {
-    override fun mapToEntity() = Item(id, title ?: "", quantity ?:0,quantityType ?:"",buyPrice ?: 0, sellPrice ?: 0,barCodeId ?: "")
+    override fun mapToEntity() = Item(id, isBookMark?:false,title ?: "", quantity ?:0,quantityType ?:"",sellPrice ?: 0, buyPrice ?: 0, distributor ?:"",barCodeId ?: "")
 }
 

@@ -4,6 +4,6 @@ import com.adut.pasar.domain.model.Item
 import java.io.File
 
 interface SyncronRepository {
-    suspend fun importItemData(file: File)
-    suspend fun exportItemData(): File
+    suspend fun importItemData(file: File) : Boolean
+    suspend fun exportItemData(): File?
 }

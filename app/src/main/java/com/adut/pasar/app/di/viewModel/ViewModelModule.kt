@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.adut.pasar.app.di.viewModel.ViewModelFactory
 import com.adut.pasar.app.di.viewModel.ViewModelKey
 import com.adut.pasar.app.feature.dashboard.DashboardViewModel
+import com.adut.pasar.app.feature.syncron.SyncronViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -19,5 +20,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(DashboardViewModel::class)
     abstract fun bindDashboardViewModel(dashboardViewModel: DashboardViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SyncronViewModel::class)
+    abstract fun bindSyncronViewModel(syncronViewModel: SyncronViewModel): ViewModel
 
 }
