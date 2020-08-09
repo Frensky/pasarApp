@@ -53,6 +53,10 @@ ext {
     //Logging
     timber = "com.jakewharton.timber:timber:4.7.1"
 
+    //openCsv
+    openCsv = "com.opencsv:opencsv:4.6"
+
+
     // Test Libraries
     jUnit = "junit:junit:$jUnitVersion"
     mockitoAndroid = "org.mockito:mockito-android:$mockitoVersion"
@@ -62,6 +66,8 @@ ext {
     androidEspresso = "androidx.test.espresso:espresso-core:$androidEspressoVersion"
     androidXTestCore = "androidx.test:core:$androidXTestCoreVersion"
     androidArchitectureCoreTesting = "androidx.arch.core:core-testing:$androidXCoreTestingVersion"
+
+
 
     domainDependencies = {
 
@@ -100,6 +106,8 @@ ext {
         implementation "$retrofitGson"
 
         implementation "$loggingInterceptor"
+
+        implementation "$openCsv"
 
         debugImplementation "$chuckerDebug"
         releaseImplementation "$chuckerDebug"

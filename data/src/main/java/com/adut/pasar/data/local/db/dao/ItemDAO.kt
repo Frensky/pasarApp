@@ -6,7 +6,13 @@ import com.adut.pasar.data.model.ItemEntity
 @Dao
 interface ItemDAO {
     @Query("select * from ItemEntity")
-    suspend fun getAllItem(): List<ItemEntity>
+    suspend fun getTopItems(): List<ItemEntity>
+
+    @Query("SELECT * from ItemEntity WHERE title LIKE '%'||:keyword||'%' ")
+    suspend fun getItemsByKeyWord(keyword:String): List<ItemEntity>
+
+    @Query("SELECT title from ItemEntity WHERE title LIKE '%'||:keyword||'%' ")
+    suspend fun getTitleByKeyWord(keyword:String): List<String>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveItem(item: ItemEntity)
@@ -24,20 +30,12 @@ interface ItemDAO {
     suspend fun deleteAll()
 
     /*
-    @Query("select * from JuloApplication where id=" +
-            "(SELECT value FROM JuloConfig WHERE `key` = '" + Key.KEY_CURRENT_APP_ID + "')")
-    suspend fun getApplication(): JuloApplication
-
-    @get:Query("select * from JuloApplication where locId=" +
-            "(SELECT value FROM JuloConfig WHERE `key` = '" + Key.KEY_CURRENT_LOC_ID + "')")
-    val locApplication: JuloApplication
 
     @Query("select * from JuloApplication")
     suspend fun getAllApplications(): List<JuloApplication>
 
-    @get:Deprecated("")
-    @get:Query("select id from JuloApplication")
-    val applicationId: Long
+    @Query("SELECT name FROM companies WHERE name LIKE '%'||:keyword||'%' ")
+    fun getCompanies(keyword: String): List<String>
 
     @Query("select * from JuloApplication where id = :applicationId")
     fun getApplication(applicationId: Long): JuloApplication

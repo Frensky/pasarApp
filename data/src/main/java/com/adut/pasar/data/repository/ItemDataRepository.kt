@@ -9,15 +9,32 @@ class ItemDataRepository @Inject constructor(
     private val itemDAO: ItemDAO
 ) : ItemRepository {
 
-    override suspend fun getAllItem(): List<Item> {
+    override suspend fun getTopItem(): List<Item> {
+        val response = itemDAO.getTopItems()
+        val result = response.map { it.mapToEntity() }
+        return result
+    }
+
+    override suspend fun searchItemByKeyWord(key: String): List<Item> {
+        val response = itemDAO.getItemsByKeyWord(key)
+        val result = response.map { it.mapToEntity() }
+        return result
+    }
+
+    override suspend fun searchTitleByKeyWord(key: String): List<String> {
+        val response = itemDAO.getTitleByKeyWord(key)
+        return response
+    }
+
+    override suspend fun getFavoriteItem(): List<Item> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getItemById(Id: Int): Item? {
+    override suspend fun getItemQuantityType(): List<String> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getItemByKeyWord(key: String): List<Item> {
+    override suspend fun getItemByBarcodeId(Id: String): Item? {
         TODO("Not yet implemented")
     }
 
@@ -30,6 +47,10 @@ class ItemDataRepository @Inject constructor(
     }
 
     override suspend fun deleteItem(item: Item) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun clearData() {
         TODO("Not yet implemented")
     }
 }
