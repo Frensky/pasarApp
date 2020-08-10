@@ -6,6 +6,7 @@ import com.adut.pasar.app.util.SingleLiveEvent
 import com.adut.pasar.domain.model.Item
 import com.adut.pasar.domain.model.SyncronState
 import com.adut.pasar.domain.usecase.item.GetTopItemUseCase
+import com.adut.pasar.domain.usecase.item.TestUseCase
 import com.adut.pasar.domain.usecase.syncron.ImportDataUseCase
 import kotlinx.coroutines.launch
 import java.io.File
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 class SyncronViewModel @Inject constructor(
     private val importDataUseCase: ImportDataUseCase,
-    private val getTopItemUseCase: GetTopItemUseCase
+    private val getTopItemUseCase: GetTopItemUseCase,
+    private val testUseCase: TestUseCase
 ) : ViewModel() {
 
     val showLoadingDialog: SingleLiveEvent<Boolean?> = SingleLiveEvent()
@@ -38,6 +40,12 @@ class SyncronViewModel @Inject constructor(
                 val result = SyncronViewState(errorResponse)
                 syncronViewState.value = result
             }
+        }
+    }
+
+    fun testUseCaseProcess(){
+        viewModelScope.launch {
+            testUseCase.execute()
         }
     }
 

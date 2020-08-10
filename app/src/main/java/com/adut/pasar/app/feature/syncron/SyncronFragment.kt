@@ -50,6 +50,10 @@ class SyncronFragment : BaseFragment() {
             Toast.makeText(context,"Coming Soon",Toast.LENGTH_SHORT).show()
         }
 
+        btnTest?.setOnClickListener {
+            viewModel.testUseCaseProcess()
+        }
+
         btnBack?.setOnClickListener{
             activity?.onBackPressed()
         }

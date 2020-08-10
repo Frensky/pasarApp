@@ -55,6 +55,15 @@
             android:text="Export CSV"
           />
 
+        <Button
+            android:id="@+id/btnTest"
+            style="@style/ButtonGreen"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
+            android:enabled="true"
+            android:text="Test Use Case"
+            />
+
     </LinearLayout>
 
 </RelativeLayout>
