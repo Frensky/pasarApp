@@ -1,5 +1,4 @@
 package com.adut.pasar.domain.model
-
 data class Item(
     val id : Long = -1,
     val isBookmarked : Boolean = false,
