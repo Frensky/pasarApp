@@ -14,4 +14,13 @@ class SettingDataRepository @Inject constructor(
     override suspend fun isJualShown(): Boolean {
         return  prefs.getShouldJualShown()
     }
+
+    override suspend fun getCSVExportLocation(): String? {
+        return prefs.getExportCSVLocation()
+    }
+
+    override suspend fun setCSVExportLocation(path: String?) {
+        prefs.setExportCSVLocation(path)
+    }
+
 }

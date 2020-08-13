@@ -11,6 +11,7 @@ class PreferencesHelper @Inject constructor(
     companion object {
         const val PREF_GENERAL_NAME = "PasarAppPrefFile"
         const val PREF_JUAL_SHOWN = "pref_jual_shown"
+        const val EXPORT_CSV_LOC = "pref_export_CSV_LOC"
     }
 
     private val generalPreferences: SharedPreferences
@@ -51,4 +52,14 @@ class PreferencesHelper @Inject constructor(
     override fun clearAllCache() {
         generalPreferences.edit().clear().commit()
     }
+
+    override fun getExportCSVLocation(): String? {
+        return generalPreferences.getString(EXPORT_CSV_LOC,null)
+    }
+
+    override fun setExportCSVLocation(path: String?) {
+        generalPreferences.put(EXPORT_CSV_LOC,path)
+    }
+
+
 }
