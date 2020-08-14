@@ -28,27 +28,23 @@ class ItemDataRepository @Inject constructor(
     }
 
     override suspend fun getFavoriteItem(): List<Item> {
-        TODO("Not yet implemented")
         val response = itemDAO.getFavoriteItems()
         val result = response.map { it.mapToEntity() }
         return result
     }
 
     override suspend fun getItemQuantityType(): List<String> {
-        TODO("Not yet implemented")
         val response = itemDAO.getQuantityType()
         return response
     }
 
     override suspend fun getItemByBarcodeId(Id: String): Item? {
-        TODO("Not yet implemented")
         val response = itemDAO.getItemsByBarCode(Id)
-        var result = response.first()?.mapToEntity()
+        var result = response.firstOrNull()?.mapToEntity()
         return result
     }
 
     override suspend fun saveItemData(item: Item) {
-        TODO("Not yet implemented")
         val entity = ItemEntity(
             id = item.id,title = item.title,quantity = item.qty,quantityType = item.qtyType,buyPrice = item.beli, sellPrice = item.jual, barCodeId = item.barCodeId,isBookMark = item.isBookmarked,distributor = item.distributor
         )
@@ -57,7 +53,6 @@ class ItemDataRepository @Inject constructor(
     }
 
     override suspend fun updateItem(item: Item) {
-        TODO("Not yet implemented")
         val entity = ItemEntity(
             id = item.id,title = item.title,quantity = item.qty,quantityType = item.qtyType,buyPrice = item.beli, sellPrice = item.jual, barCodeId = item.barCodeId,isBookMark = item.isBookmarked,distributor = item.distributor
         )
@@ -65,12 +60,10 @@ class ItemDataRepository @Inject constructor(
     }
 
     override suspend fun deleteItem(item: Item) {
-        TODO("Not yet implemented")
         itemDAO.deleteByItemID(item.id)
     }
 
     override suspend fun clearData() {
-        TODO("Not yet implemented")
         itemDAO.deleteAll()
     }
 }
