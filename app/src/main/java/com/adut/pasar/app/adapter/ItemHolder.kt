@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.adut.pasar.app.R
 
 class ItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-    lateinit var itemLayout: LinearLayout
-    lateinit var itemTitle: TextView
-    lateinit var itemQty: TextView
-    lateinit var itemPrice: TextView
+     var itemLayout: LinearLayout
+     var itemTitle: TextView
+     var itemQty: TextView
+     var itemPrice: TextView
 
     init {
         itemLayout = itemView.findViewById<View>(R.id.item_layout) as LinearLayout

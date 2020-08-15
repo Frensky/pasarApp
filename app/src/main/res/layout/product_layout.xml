@@ -1,12 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/productSearchLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    >
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp"
+    android:paddingTop="15dp">
+
+    <View
+        android:id="@+id/product_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="50dp"/>
+
+    <com.creageek.segmentedbutton.SegmentedButton
+        android:id="@+id/product_segment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="THIS IS PRODUCT PAGE"
-        android:textSize="32sp"
-        android:layout_gravity="center"
-        android:gravity="center"/>
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_below="@id/product_divider"
+        app:borderColor="@color/colorPrimary"
+        app:rippleColorChecked="#ffffff"
+        app:segmentColorChecked="@color/colorPrimary"
+        app:spreadType="evenly"
+        app:textColor="@color/colorPrimary">
+
+        <RadioButton
+            android:id="@+id/segment_beli"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nilai Beli"/>
+
+        <RadioButton
+            android:id="@+id/segment_jual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nilai Jual"/>
+    </com.creageek.segmentedbutton.SegmentedButton>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/productListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/product_segment"
+        android:layout_marginTop="15dp"
+       />
+
+    <FrameLayout
+        android:id="@+id/product_empty_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/product_divider"
+        android:layout_marginTop="25dp"
+        android:background="@color/app_background"
+        android:visibility="gone"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="140dp"
+                android:src="@drawable/empty_icn"
+                android:scaleType="fitCenter"
+                android:layout_gravity="center"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Maaf Datanya Tidak Ada"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:textColor="@color/colorPrimary"/>
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+</RelativeLayout>
+
+    <com.arlib.floatingsearchview.FloatingSearchView
+        android:id="@+id/productSearchView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="15dp"
+        app:floatingSearch_close_search_on_keyboard_dismiss="true"
+        app:floatingSearch_leftActionMode="showSearch"
+        app:floatingSearch_searchBarMarginLeft="5dp"
+        app:floatingSearch_searchBarMarginRight="5dp"
+        app:floatingSearch_searchHint="Cari Product di sini"
+        app:floatingSearch_showSearchKey="false"
+        app:floatingSearch_suggestionsListAnimDuration="250" />
+
 </FrameLayout>

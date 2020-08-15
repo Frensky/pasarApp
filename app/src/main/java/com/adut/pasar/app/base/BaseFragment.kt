@@ -11,7 +11,7 @@ import com.adut.pasar.app.view.LoadingDialog
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-open abstract class BaseFragment : Fragment(),BaseViewMethodInterface {
+abstract class BaseFragment : Fragment(),BaseViewMethodInterface {
 
     protected val component by lazy { MyApplication.appComponent }
 

@@ -60,12 +60,12 @@ class ItemAdapter(
             var price = 0.0
 
             if(type == PriceState.BELI){
-                price = (entity.beli ?: 0).toDouble()
+                price = (entity.beli).toDouble()
                 holder.itemPrice.text = FunctionUtil.doubleToRupiahString(price)
-                holder.itemPrice.setTextColor(context.resources.getColor(R.color.beli_text))
+                holder.itemPrice.setTextColor(context.resources.getColor(R.color.colorPrimary))
             }
             else{
-                price = (entity.jual ?: 0).toDouble()
+                price = (entity.jual).toDouble()
                 holder.itemPrice.text = FunctionUtil.doubleToRupiahString(price)
                 holder.itemPrice.setTextColor(context.resources.getColor(R.color.jual_text))
             }

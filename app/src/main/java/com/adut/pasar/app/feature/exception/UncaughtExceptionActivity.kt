@@ -78,7 +78,7 @@ class UncaughtExceptionActivity : AppCompatActivity, Thread.UncaughtExceptionHan
     }
 
     private fun setVerisonNameText(appVersion: TextView) {
-        var packageInfo: PackageInfo? = null
+        var packageInfo: PackageInfo?
         try {
             packageInfo = myContext!!.packageManager
                 .getPackageInfo(myContext!!.packageName, PackageManager.GET_ACTIVITIES)
@@ -95,7 +95,7 @@ class UncaughtExceptionActivity : AppCompatActivity, Thread.UncaughtExceptionHan
         System.exit(10)
     }
 
-    private open interface preKillProcess {
-       open abstract fun onKillProcess()
+    private interface preKillProcess {
+        abstract fun onKillProcess()
     }
 }

@@ -10,7 +10,7 @@ object PermisionHelper {
         context: Context?,
         vararg permissions: String?
     ): Boolean {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null ) {
             for (permission in permissions) {
                 if (ContextCompat.checkSelfPermission(
                         context,

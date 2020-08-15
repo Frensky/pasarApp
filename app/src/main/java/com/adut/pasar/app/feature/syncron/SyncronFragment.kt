@@ -52,7 +52,7 @@ class SyncronFragment : BaseFragment() {
         btnTest?.setOnClickListener {
             viewModel.testUseCaseProcess()
         }
-        
+
     }
 
     private fun openFileSelector(){

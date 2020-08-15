@@ -4,15 +4,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import com.adut.pasar.app.R
 import com.adut.pasar.app.base.BaseFragment
+import com.adut.pasar.domain.model.Item
+import com.arlib.floatingsearchview.FloatingSearchView
+import com.arlib.floatingsearchview.FloatingSearchView.OnQueryChangeListener
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
+import com.demo.img.adapter.ItemAdapter
+import kotlinx.android.synthetic.main.product_layout.*
+
 
 class ProductFragment : BaseFragment() {
     lateinit var viewModel: ProductViewModel
+    lateinit var adapter: ItemAdapter
+    val productData : ArrayList<Item>
 
     init {
-
+        productData = ArrayList()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -27,19 +39,120 @@ class ProductFragment : BaseFragment() {
     }
 
     override fun initView(){
+        adapter = ItemAdapter(requireContext(),productData)
+        adapter.setPriceType(ItemAdapter.PriceState.BELI)
 
+        productListView?.setOverScrollMode(View.OVER_SCROLL_NEVER)
+        val mLayoutMgr =  GridLayoutManager(requireContext(), 1)
+        productListView?.setLayoutManager(mLayoutMgr)
+        productListView?.setAdapter(adapter)
+
+        refreshData()
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     override fun setUICallbacks(){
+        adapter.onClickItem(object : ItemAdapter.OnItemCLickListener{
+            override fun onClickItem(data: Item, position: Int) {
+                Toast.makeText(requireContext(),"COMING SOON\nData : "+data.title,Toast.LENGTH_LONG).show()
+            }
+         }
+        )
 
+        productSearchView?.setOnQueryChangeListener(OnQueryChangeListener { oldQuery, newQuery ->
+            viewModel.onSearchTitle(newQuery)
+        })
+
+
+        productSearchView?.setDismissFocusOnItemSelection(true)
+        productSearchView?.setOnSearchListener(object : FloatingSearchView.OnSearchListener{
+            override fun onSearchAction(currentQuery: String?) {
+                viewModel.onSearchProduct(currentQuery)
+                productSearchView?.clearSearchFocus()
+            }
+
+            override fun onSuggestionClicked(searchSuggestion: SearchSuggestion?) {
+                //productSearchView?.setSearchBarTitle(searchSuggestion?.body)
+                viewModel.onSearchProduct(searchSuggestion?.body)
+                productSearchView?.clearSearchFocus()
+            }
+        })
+        /*
+        productSearchView?.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
+            override fun onQueryTextChange(p0: String?): Boolean {
+                viewModel.onSearchTitle(p0)
+                return true
+            }
+
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                viewModel.onSearchProduct(p0)
+                productSearchView?.clearFocus()
+                return true
+            }
+        })
+        */
+        product_segment?.onSegmentChecked { segmented ->
+            if(segmented.text.equals("Nilai Jual")){
+                adapter.setPriceType(ItemAdapter.PriceState.JUAL)
+            }
+            else{
+                adapter.setPriceType(ItemAdapter.PriceState.BELI)
+            }
+        }
     }
 
     override fun initObserver(){
+        viewModel.productLiveData.observe(this, Observer {
+            if(it != null){
+                productData.clear()
+                productData.addAll(it)
+                adapter.notifyDataSetChanged()
 
+                if(it.isNullOrEmpty()){
+                    product_empty_layout?.visibility = View.VISIBLE
+                }
+                else{
+                    product_empty_layout?.visibility = View.GONE
+                }
+            }
+        })
+
+        viewModel.titleLiveData.observe(this, Observer {
+            if(it != null){
+                val resultList = ArrayList<ProductSuggestion>()
+                for(item in it){
+                    resultList.add(ProductSuggestion(item))
+                }
+                productSearchView.swapSuggestions(resultList)
+            }
+        })
+
+        viewModel.segmentUILiveData.observe(this, Observer {
+            if(it != null){
+                if(it){
+                    product_segment?.visibility = View.VISIBLE
+                    product_segment.initialCheckedIndex = 0
+                    product_segment.invoke {
+
+                    }
+                }
+                else{
+                    product_segment?.visibility = View.GONE
+                }
+            }
+        })
     }
 
     override fun updateUI(){
+        viewModel.onSearchProduct(productSearchView?.query.toString())
+    }
 
+    private fun refreshData(){
+        viewModel.refreshAllData()
+        viewModel.checkSegmentUi()
     }
 
     companion object {
