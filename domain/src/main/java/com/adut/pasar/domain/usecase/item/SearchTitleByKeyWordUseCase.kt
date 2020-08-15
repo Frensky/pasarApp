@@ -4,7 +4,7 @@ import com.adut.pasar.domain.model.Item
 import com.adut.pasar.domain.repository.ItemRepository
 import javax.inject.Inject
 
-class GetTitleByKeyWordUseCase @Inject constructor(
+class SearchTitleByKeyWordUseCase @Inject constructor(
     private val repository: ItemRepository
 ) {
     suspend fun execute(keyWord : String): List<String> {

@@ -20,7 +20,7 @@ interface ItemDAO {
     @Query("SELECT title from ItemEntity WHERE title LIKE '%'||:keyword||'%' ")
     suspend fun getTitleByKeyWord(keyword:String): List<String>
 
-    @Query("SELECT DISTINCT quantityType from ItemEntity")
+    @Query("SELECT DISTINCT quantityType from ItemEntity ORDER BY quantityType ASC")
     suspend fun getQuantityType(): List<String>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -40,23 +40,4 @@ interface ItemDAO {
 
     @Query("delete from ItemEntity where id = :id")
     suspend fun deleteByItemID(id:Long)
-
-    /*
-
-    @Query("select * from JuloApplication")
-    suspend fun getAllApplications(): List<JuloApplication>
-
-    @Query("SELECT name FROM companies WHERE name LIKE '%'||:keyword||'%' ")
-    fun getCompanies(keyword: String): List<String>
-
-    @Query("select * from JuloApplication where id = :applicationId")
-    fun getApplication(applicationId: Long): JuloApplication
-
-//    @Query("select * from JuloApplication where id = :applicationId")
-//    fun getApplicationLiveData(applicationId: Long): LiveData<JuloApplication>
-
-    @Query("select status from JuloApplication where id = :applicationId")
-    suspend fun getApplicationStatus(applicationId: Long): Int
-
-  */
 }
