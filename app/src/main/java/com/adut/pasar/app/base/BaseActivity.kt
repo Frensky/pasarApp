@@ -37,10 +37,14 @@ abstract class BaseActivity  : AppCompatActivity(),BaseViewMethodInterface {
     }
 
     fun replaceFragmentBackstack(fragment: Fragment,backStackState:Boolean) {
+        replaceFragmentId(R.id.container,fragment,backStackState)
+    }
+
+    fun replaceFragmentId(id:Int,fragment: Fragment,backStackState:Boolean) {
         if(!isFinishing()){
             val fragmentTransaction = supportFragmentManager.beginTransaction()
             fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
-            fragmentTransaction.replace(R.id.container, fragment)
+            fragmentTransaction.replace(id, fragment)
             if(backStackState){
                 fragmentTransaction.addToBackStack(fragment::class.java.canonicalName)
             }
@@ -53,10 +57,14 @@ abstract class BaseActivity  : AppCompatActivity(),BaseViewMethodInterface {
     }
 
     fun addFragmentBackstack(fragment: Fragment,backStackState:Boolean) {
+        addFragmentId(R.id.container,fragment,backStackState)
+    }
+
+    fun addFragmentId(id:Int,fragment: Fragment,backStackState:Boolean) {
         if(!isFinishing()){
             val fragmentTransaction = supportFragmentManager.beginTransaction()
             fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
-            fragmentTransaction.add(R.id.container, fragment)
+            fragmentTransaction.add(id, fragment)
             if(backStackState){
                 fragmentTransaction.addToBackStack(fragment::class.java.canonicalName)
             }

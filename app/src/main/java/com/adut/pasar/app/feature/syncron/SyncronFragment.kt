@@ -16,7 +16,6 @@ import ir.androidexception.filepicker.interfaces.OnCancelPickerDialogListener
 import ir.androidexception.filepicker.interfaces.OnConfirmDialogListener
 import kotlinx.android.synthetic.main.syncron_page_layout.*
 import java.io.File
-import javax.inject.Inject
 
 class SyncronFragment : BaseFragment() {
     lateinit var viewModel: SyncronViewModel
@@ -53,10 +52,7 @@ class SyncronFragment : BaseFragment() {
         btnTest?.setOnClickListener {
             viewModel.testUseCaseProcess()
         }
-
-        btnBack?.setOnClickListener{
-            activity?.onBackPressed()
-        }
+        
     }
 
     private fun openFileSelector(){

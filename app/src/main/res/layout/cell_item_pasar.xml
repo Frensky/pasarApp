@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
     <LinearLayout
+        android:id="@+id/item_layout"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:background="@drawable/border_item"
     >
 
     <TextView
@@ -13,9 +16,9 @@
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="10dp"
-        android:text="Minyak Goreng Filma"
+        android:text="Minyak Goreng Filma "
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="30sp"
+        android:textSize="24sp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -29,25 +32,21 @@
             android:id="@+id/qtyLbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
             android:text="1 kilo"
-            android:textSize="20sp" />
+            android:layout_gravity="center"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/priceTagLbl"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="Rp 15.000"
-            android:textAlignment="viewStart"
+            android:layout_gravity="right"
+            android:gravity="right"
             android:textSize="22sp"
+            android:textColor="@color/beli_text"
             android:textStyle="bold" />
     </LinearLayout>
 
-    <View
-        android:id="@+id/view2"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/colorgrayDark"/>
 
 </LinearLayout>

@@ -2,9 +2,8 @@ package com.adut.pasar.app.di.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.adut.pasar.app.di.viewModel.ViewModelFactory
-import com.adut.pasar.app.di.viewModel.ViewModelKey
-import com.adut.pasar.app.feature.dashboard.DashboardViewModel
+import com.adut.pasar.app.feature.favorite.FavoriteViewModel
+import com.adut.pasar.app.feature.product.ProductViewModel
 import com.adut.pasar.app.feature.syncron.SyncronViewModel
 import dagger.Binds
 import dagger.Module
@@ -18,8 +17,13 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(DashboardViewModel::class)
-    abstract fun bindDashboardViewModel(dashboardViewModel: DashboardViewModel): ViewModel
+    @ViewModelKey(ProductViewModel::class)
+    abstract fun bindDashboardViewModel(dashboardViewModel: ProductViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FavoriteViewModel::class)
+    abstract fun bindFavoriteViewModel(favoriteViewModel: FavoriteViewModel): ViewModel
 
     @Binds
     @IntoMap

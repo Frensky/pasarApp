@@ -1,10 +1,10 @@
-package com.adut.pasar.app.feature.dashboard
+package com.adut.pasar.app.feature.product
 
 import androidx.lifecycle.ViewModel
 import com.adut.pasar.domain.usecase.item.GetTopItemUseCase
 import javax.inject.Inject
 
-class DashboardViewModel @Inject constructor(
+class ProductViewModel @Inject constructor(
     private val getAllItemUseCase: GetTopItemUseCase
 ) : ViewModel() {
 
