@@ -5,6 +5,8 @@ import com.adut.pasar.domain.model.Item
 interface ItemRepository {
     suspend fun getTopItem(): List<Item>
     suspend fun getFavoriteItem(): List<Item>
+    suspend fun getItemById(Id: Long): Item?
+
     suspend fun getItemByBarcodeId(Id: String): Item?
     suspend fun searchItemByKeyWord(key:String): List<Item>
     suspend fun searchTitleByKeyWord(key:String): List<String>

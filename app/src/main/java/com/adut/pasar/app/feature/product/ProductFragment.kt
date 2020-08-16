@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.adut.pasar.app.R
 import com.adut.pasar.app.base.BaseFragment
+import com.adut.pasar.app.feature.edit.EditActivity
 import com.adut.pasar.domain.model.Item
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.FloatingSearchView.OnQueryChangeListener
@@ -57,7 +57,7 @@ class ProductFragment : BaseFragment() {
     override fun setUICallbacks(){
         adapter.onClickItem(object : ItemAdapter.OnItemCLickListener{
             override fun onClickItem(data: Item, position: Int) {
-                Toast.makeText(requireContext(),"COMING SOON\nData : "+data.title,Toast.LENGTH_LONG).show()
+               EditActivity.launchActivity(requireActivity(),data.id)
             }
          }
         )
@@ -80,20 +80,7 @@ class ProductFragment : BaseFragment() {
                 productSearchView?.clearSearchFocus()
             }
         })
-        /*
-        productSearchView?.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
-            override fun onQueryTextChange(p0: String?): Boolean {
-                viewModel.onSearchTitle(p0)
-                return true
-            }
 
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                viewModel.onSearchProduct(p0)
-                productSearchView?.clearFocus()
-                return true
-            }
-        })
-        */
         product_segment?.onSegmentChecked { segmented ->
             if(segmented.text.equals("Nilai Jual")){
                 adapter.setPriceType(ItemAdapter.PriceState.JUAL)
@@ -101,6 +88,10 @@ class ProductFragment : BaseFragment() {
             else{
                 adapter.setPriceType(ItemAdapter.PriceState.BELI)
             }
+        }
+
+        product_tambah_btn?.setOnClickListener {
+            EditActivity.launchAddActivity(requireActivity(),productSearchView?.query.toString())
         }
     }
 

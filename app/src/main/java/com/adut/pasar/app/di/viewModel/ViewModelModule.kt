@@ -2,6 +2,7 @@ package com.adut.pasar.app.di.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.adut.pasar.app.feature.edit.EditViewModel
 import com.adut.pasar.app.feature.favorite.FavoriteViewModel
 import com.adut.pasar.app.feature.product.ProductViewModel
 import com.adut.pasar.app.feature.setting.SettingViewModel
@@ -35,5 +36,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SettingViewModel::class)
     abstract fun bindSettingViewModel(settingViewModel: SettingViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(EditViewModel::class)
+    abstract fun bindEditViewModel(settingViewModel: EditViewModel): ViewModel
 
 }

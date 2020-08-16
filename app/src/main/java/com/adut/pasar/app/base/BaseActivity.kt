@@ -6,6 +6,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import com.adut.pasar.app.MyApplication
 import com.adut.pasar.app.R
 import com.adut.pasar.app.feature.exception.UncaughtExceptionActivity
 import com.adut.pasar.app.view.LoadingDialog
@@ -15,6 +16,8 @@ abstract class BaseActivity  : AppCompatActivity(),BaseViewMethodInterface {
     val TRANSITION_IN_OUT = R.anim.slide_out_right
     val TRANSITION_OUT_IN = R.anim.slide_in_right
     val TRANSITION_OUT_OUT = R.anim.slide_out_left
+
+    protected val component by lazy { MyApplication.appComponent }
 
     private lateinit var loadingDialog : LoadingDialog
 

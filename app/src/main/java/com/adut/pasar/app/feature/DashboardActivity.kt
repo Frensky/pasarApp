@@ -3,6 +3,7 @@ package com.adut.pasar.app.feature
 import android.widget.Toast
 import com.adut.pasar.app.R
 import com.adut.pasar.app.base.BaseActivity
+import com.adut.pasar.app.feature.edit.EditActivity
 import com.adut.pasar.app.feature.favorite.FavoriteFragment
 import com.adut.pasar.app.feature.product.ProductFragment
 import com.adut.pasar.app.feature.setting.SettingFragment
@@ -48,6 +49,10 @@ class DashboardActivity : BaseActivity() {
                 dashboard_flipper_main.displayedChild = 3
             }
             updateTabLayout()
+        }
+
+        dashboard_icon_add.setOnClickListener {
+            EditActivity.launchAddActivity(this,"")
         }
 
         dashboard_icon_barcode.setOnClickListener{

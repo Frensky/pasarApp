@@ -12,5 +12,10 @@
     <color name="jual_text">#A0522D</color>
     <color name="beli_text">#4682B4</color>
 
+    <color name="color_text_dark">#5E5E5E</color>
+    <color name="color_text_light">#E5E5E5</color>
+    <color name="color_text_red">#ff2e5e</color>
+    <color name="color_text_middle">#A1A1A1</color>
+
 
 </resources>

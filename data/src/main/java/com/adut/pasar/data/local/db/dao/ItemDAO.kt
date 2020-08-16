@@ -14,6 +14,9 @@ interface ItemDAO {
     @Query("select * from ItemEntity WHERE isBookMark = 1 ORDER BY title ASC")
     suspend fun getFavoriteItems(): List<ItemEntity>
 
+    @Query("SELECT * from ItemEntity WHERE id = :itemId")
+    suspend fun getItemById(itemId:Long): ItemEntity?
+
     @Query("SELECT * from ItemEntity WHERE barCodeId = :keyword")
     suspend fun getItemsByBarCode(keyword:String): List<ItemEntity>
 

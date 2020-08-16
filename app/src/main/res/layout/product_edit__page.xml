@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:id="@+id/back_btn_icn"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_gravity="center"
+            android:src="@drawable/white_back_btn"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"/>
+
+        <TextView
+            android:id="@+id/edit_txt_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Data Produk"
+            android:maxLines="1"
+            android:textSize="20sp"
+            android:textColor="@color/white_bg"
+            android:paddingBottom="5dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="25dp"
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/edit_cb_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Favorite?"
+            android:layout_gravity="right"
+            android:layout_marginBottom="5dp"
+            android:checked="false"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edit_tl_product_name"
+        android:theme="@style/TextInputLayoutAppearance"
+        app:hintTextAppearance="@style/HintText"
+        app:errorTextAppearance="@style/ErrorText"
+        app:boxBackgroundColor="@color/white_bg"
+        android:textColorHint="@color/dark_gray"
+        android:hint="Nama Product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_et_product_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:paddingBottom="12dp"
+            android:layout_marginBottom="-5dp"
+            android:text=""
+            android:textColor="@color/color_text_dark"
+            android:textSize="@dimen/edit_text"
+            android:textColorHint="@color/color_text_light"
+            android:imeOptions="actionNext"
+            android:inputType="textCapSentences"
+            >
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kuantitas"
+            android:textSize="14sp"
+            android:layout_marginTop="@dimen/form_top_margin"
+            android:textColor="@color/color_text_dark"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edit_et_qty"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="0.4"
+                android:text=""
+                android:hint="0"
+                android:textColor="@color/color_text_dark"
+                android:textSize="@dimen/edit_text"
+                android:textColorHint="@color/color_text_light"
+                android:inputType="numberDecimal"
+                app:backgroundTint="@color/color_text_light"
+                android:imeOptions="actionNext"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="0.1"/>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_weight="0.5" >
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/edit_sp_qty_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_dropdown" />
+
+                <ImageView
+                    android:id="@+id/edit_ic_qty_type"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_arrow_dwon"
+                    android:layout_gravity="right"
+                    />
+
+            </FrameLayout>
+
+
+
+
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edit_tl_sell"
+            android:theme="@style/TextInputLayoutAppearance"
+            app:hintTextAppearance="@style/HintText"
+            app:errorTextAppearance="@style/ErrorText"
+            app:boxBackgroundColor="@color/white_bg"
+            android:textColorHint="@color/dark_gray"
+            android:layout_marginTop="@dimen/form_top_margin"
+            android:hint="Harga Beli (Rp)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_et_sell"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:paddingBottom="12dp"
+                android:layout_marginBottom="-5dp"
+                android:text=""
+                android:inputType="numberDecimal"
+                android:textColor="@color/color_text_dark"
+                android:textSize="@dimen/edit_text"
+                android:textColorHint="@color/color_text_light"
+                android:imeOptions="actionNext"
+                >
+            </com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edit_tl_buy"
+            android:theme="@style/TextInputLayoutAppearance"
+            app:hintTextAppearance="@style/HintText"
+            app:errorTextAppearance="@style/ErrorText"
+            app:boxBackgroundColor="@color/white_bg"
+            android:textColorHint="@color/dark_gray"
+            android:layout_marginTop="@dimen/form_top_margin"
+            android:hint="Harga Jual (Rp)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_et_buy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:paddingBottom="12dp"
+                android:layout_marginBottom="-5dp"
+                android:text=""
+                android:inputType="numberDecimal"
+                android:textColor="@color/color_text_dark"
+                android:textSize="@dimen/edit_text"
+                android:textColorHint="@color/color_text_light"
+                android:imeOptions="actionNext"
+                >
+            </com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edit_tl_supplier_name"
+            android:theme="@style/TextInputLayoutAppearance"
+            app:hintTextAppearance="@style/HintText"
+            app:errorTextAppearance="@style/ErrorText"
+            app:boxBackgroundColor="@color/white_bg"
+            android:textColorHint="@color/dark_gray"
+            android:layout_marginTop="@dimen/form_top_margin"
+            android:hint="Nama Supplier"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_et_supplier_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:paddingBottom="12dp"
+                android:layout_marginBottom="-5dp"
+                android:text=""
+                android:textColor="@color/color_text_dark"
+                android:textSize="@dimen/edit_text"
+                android:textColorHint="@color/color_text_light"
+                android:imeOptions="actionDone"
+                android:inputType="textCapSentences"
+                >
+            </com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BarCode Id"
+            android:textSize="14sp"
+            android:layout_marginTop="@dimen/form_top_margin"
+            android:textColor="@color/color_text_dark"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/edit_tv_barcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text=" ---"
+                android:textSize="@dimen/edit_text"
+                android:gravity="left|center"
+                android:textColor="@color/color_text_dark"/>
+
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="1dp"/>
+
+            <Button
+                android:id="@+id/edit_barcode_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textColor="@color/white_bg"
+                android:text="Edit Barcode"
+                android:textAllCaps="false"
+                android:background="@color/colorPrimary" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/edit_simpan_btn"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="25dp"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_height="40dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textColor="@color/white_bg"
+            android:text="Simpan"
+            android:textAllCaps="false"
+            android:background="@color/colorPrimary" />
+    </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

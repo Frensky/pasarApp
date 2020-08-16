@@ -44,6 +44,12 @@ class ItemDataRepository @Inject constructor(
         return result
     }
 
+    override suspend fun getItemById(Id: Long): Item? {
+        val response = itemDAO.getItemById(Id)
+        var result = response?.mapToEntity()
+        return result
+    }
+
     override suspend fun saveItemData(item: Item) {
         val entity = ItemEntity(
             id = item.id,title = item.title,quantity = item.qty,quantityType = item.qtyType,buyPrice = item.beli, sellPrice = item.jual, barCodeId = item.barCodeId,isBookMark = item.isBookmarked,distributor = item.distributor

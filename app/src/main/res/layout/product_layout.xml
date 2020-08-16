@@ -92,6 +92,21 @@
                 android:layout_marginRight="22dp"
                 android:textColor="@color/colorPrimary"/>
 
+            <Button
+                android:id="@+id/product_tambah_btn"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="25dp"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_height="40dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textColor="@color/white_bg"
+                android:text="Tambah Data Baru"
+                android:textAllCaps="false"
+                android:background="@color/colorPrimary" />
+
         </LinearLayout>
 
 
