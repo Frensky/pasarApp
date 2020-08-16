@@ -1,9 +1,11 @@
 package com.adut.pasar.app.feature
 
+import android.widget.Toast
 import com.adut.pasar.app.R
 import com.adut.pasar.app.base.BaseActivity
 import com.adut.pasar.app.feature.favorite.FavoriteFragment
 import com.adut.pasar.app.feature.product.ProductFragment
+import com.adut.pasar.app.feature.setting.SettingFragment
 import com.adut.pasar.app.feature.syncron.SyncronFragment
 import kotlinx.android.synthetic.main.dashboard_layout.*
 
@@ -40,12 +42,17 @@ class DashboardActivity : BaseActivity() {
             updateTabLayout()
         }
 
-        dashboard_tab_container_barcode.setOnClickListener{
-            //open bar code activity
+        dashboard_tab_container_setting.setOnClickListener{
+            if(selectedTab != 3){
+                selectedTab = 3
+                dashboard_flipper_main.displayedChild = 3
+            }
+            updateTabLayout()
         }
 
-        dashboard_icon_setting.setOnClickListener{
+        dashboard_icon_barcode.setOnClickListener{
             //open settinga activity
+            Toast.makeText(this,"coming soon..",Toast.LENGTH_LONG).show()
         }
     }
 
@@ -57,6 +64,7 @@ class DashboardActivity : BaseActivity() {
         addFragmentId(R.id.dashboard_main_page,ProductFragment.newInstance(),false)
         addFragmentId(R.id.dashboard_favorite_page,FavoriteFragment.newInstance(),false)
         addFragmentId(R.id.dashboard_syncron_page,SyncronFragment.newInstance(),false)
+        addFragmentId(R.id.dashboard_setting_page,SettingFragment.newInstance(),false)
     }
 
     override fun updateUI() {
@@ -72,6 +80,9 @@ class DashboardActivity : BaseActivity() {
 
             }
             2->{
+
+            }
+            3->{
 
             }
         }
