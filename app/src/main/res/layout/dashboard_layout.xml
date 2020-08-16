@@ -186,7 +186,7 @@
                 android:id="@+id/dashboard_tab_title_setting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Setting"
+                android:text="Pengaturan"
                 android:textSize="15sp"
                 android:paddingBottom="5dp"
                 android:layout_gravity="center"
