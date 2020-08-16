@@ -72,18 +72,33 @@ class DashboardActivity : BaseActivity() {
     }
 
     private fun updateTabLayout(){
+
+        dashboard_tab_image_harga.setImageResource(R.drawable.price_nonactive)
+        dashboard_tab_image_favorite.setImageResource(R.drawable.favorite_nonactive)
+        dashboard_tab_image_synch.setImageResource(R.drawable.sync_nonactive)
+        dashboard_tab_image_setting.setImageResource(R.drawable.settting_nonactive)
+
+        dashboard_tab_title_harga.setTextColor(resources.getColor(R.color.colorgrayDark))
+        dashboard_tab_title_favorite.setTextColor(resources.getColor(R.color.colorgrayDark))
+        dashboard_tab_title_synch.setTextColor(resources.getColor(R.color.colorgrayDark))
+        dashboard_tab_title_setting.setTextColor(resources.getColor(R.color.colorgrayDark))
+
         when(selectedTab){
             0->{
-
+                dashboard_tab_image_harga.setImageResource(R.drawable.price_active)
+                dashboard_tab_title_harga.setTextColor(resources.getColor(R.color.colorPrimary))
             }
             1->{
-
-            }
+                dashboard_tab_image_favorite.setImageResource(R.drawable.favorite_active)
+                dashboard_tab_title_favorite.setTextColor(resources.getColor(R.color.colorPrimary))
+             }
             2->{
-
+                dashboard_tab_image_synch.setImageResource(R.drawable.syn_active)
+                dashboard_tab_title_synch.setTextColor(resources.getColor(R.color.colorPrimary))
             }
             3->{
-
+                dashboard_tab_image_setting.setImageResource(R.drawable.setting_active)
+                dashboard_tab_title_setting.setTextColor(resources.getColor(R.color.colorPrimary))
             }
         }
     }
