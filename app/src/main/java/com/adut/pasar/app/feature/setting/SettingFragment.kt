@@ -8,10 +8,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.adut.pasar.app.R
 import com.adut.pasar.app.base.BaseFragment
+import com.adut.pasar.app.feature.DashboardViewModel
 import kotlinx.android.synthetic.main.setting_layout.*
 
 
 class SettingFragment : BaseFragment() {
+    lateinit var dashboardViewModel: DashboardViewModel
     lateinit var viewModel: SettingViewModel
 
     init {
@@ -21,6 +23,7 @@ class SettingFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         component.inject(this)
+        dashboardViewModel = ViewModelProvider(requireActivity()).get(DashboardViewModel::class.java)
         viewModel = ViewModelProvider(this, viewModelFactory).get(SettingViewModel::class.java)
         return inflater.inflate(getLayout(), container, false)
     }
@@ -50,6 +53,12 @@ class SettingFragment : BaseFragment() {
     }
 
     override fun initObserver(){
+        dashboardViewModel.reloadSettingView.observe(this, Observer {
+            it?.let {
+                initView()
+            }
+        })
+
         viewModel.jualStatusLiveData.observe(this, Observer {
               it?.let {
                   setting_page_show_price_switch?.isChecked = it

@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.adut.pasar.app.R
 import com.adut.pasar.app.base.BaseFragment
+import com.adut.pasar.app.feature.DashboardViewModel
 import com.adut.pasar.app.util.AppConstant
 import com.adut.pasar.app.util.PermisionHelper
 import ir.androidexception.filepicker.dialog.SingleFilePickerDialog
@@ -18,6 +19,7 @@ import kotlinx.android.synthetic.main.syncron_page_layout.*
 import java.io.File
 
 class SyncronFragment : BaseFragment() {
+    lateinit var dashboardViewModel: DashboardViewModel
     lateinit var viewModel: SyncronViewModel
     var shouldOpenFileSelector = false
 
@@ -28,6 +30,7 @@ class SyncronFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         component.inject(this)
+        dashboardViewModel = ViewModelProvider(requireActivity()).get(DashboardViewModel::class.java)
         viewModel = ViewModelProvider(this, viewModelFactory).get(SyncronViewModel::class.java)
         return inflater.inflate(getLayout(), container, false)
     }
@@ -74,6 +77,13 @@ class SyncronFragment : BaseFragment() {
     }
 
     override fun initObserver(){
+
+        dashboardViewModel.reloadSyncronView.observe(this, Observer {
+            it?.let {
+                initView()
+            }
+        })
+
         viewModel.showLoadingDialog.observe(this, Observer { isLoading ->
             if(isLoading!= null){
                 if(isLoading){

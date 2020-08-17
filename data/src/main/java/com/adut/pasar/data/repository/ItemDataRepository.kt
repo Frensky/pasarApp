@@ -51,11 +51,17 @@ class ItemDataRepository @Inject constructor(
     }
 
     override suspend fun saveItemData(item: Item) {
-        val entity = ItemEntity(
-            id = item.id,title = item.title,quantity = item.qty,quantityType = item.qtyType,buyPrice = item.beli, sellPrice = item.jual, barCodeId = item.barCodeId,isBookMark = item.isBookmarked,distributor = item.distributor
-        )
-        itemDAO.saveItem(entity)
+        var ids = item.id
 
+        if(ids < 0){
+            ids = itemDAO.getIdDesc().firstOrNull() ?: 0
+        }
+
+        val entity = ItemEntity(
+            id = ids,title = item.title,quantity = item.qty,quantityType = item.qtyType,buyPrice = item.beli, sellPrice = item.jual, barCodeId = item.barCodeId,isBookMark = item.isBookmarked,distributor = item.distributor
+        )
+
+        itemDAO.saveItem(entity)
     }
 
     override suspend fun updateItem(item: Item) {

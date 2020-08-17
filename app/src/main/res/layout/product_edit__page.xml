@@ -22,16 +22,26 @@
 
         <TextView
             android:id="@+id/edit_txt_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Edit Data Produk"
             android:maxLines="1"
             android:textSize="20sp"
             android:textColor="@color/white_bg"
             android:paddingBottom="5dp"
             android:layout_gravity="center"
-            android:gravity="center"
+            android:gravity="left"
             android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/fav_icn"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_gravity="center"
+            android:src="@drawable/bookmark_uncheck"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"/>
     </LinearLayout>
 
     <ScrollView
@@ -46,15 +56,6 @@
           android:layout_height="wrap_content"
         android:orientation="vertical"
         >
-
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/edit_cb_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Favorite?"
-            android:layout_gravity="right"
-            android:layout_marginBottom="5dp"
-            android:checked="false"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edit_tl_product_name"
@@ -86,10 +87,11 @@
     </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
+            android:id="@+id/edit_label_qty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Kuantitas"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:layout_marginTop="@dimen/form_top_margin"
             android:textColor="@color/color_text_dark"/>
 
@@ -135,13 +137,17 @@
                     android:src="@drawable/ic_arrow_dwon"
                     android:layout_gravity="right"
                     />
-
             </FrameLayout>
-
-
-
-
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/edit_error_qty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tolong masukkan jumlah Item"
+            android:textSize="11sp"
+            android:visibility="gone"
+            android:textColor="@color/color_text_red"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/edit_tl_sell"
@@ -287,6 +293,21 @@
             android:text="Simpan"
             android:textAllCaps="false"
             android:background="@color/colorPrimary" />
+
+        <Button
+            android:id="@+id/edit_hapus_btn"
+            android:layout_marginBottom="25dp"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_height="40dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textColor="@color/white_bg"
+            android:text="Hapus"
+            android:textAllCaps="false"
+            android:background="@color/color_text_red" />
+
     </LinearLayout>
 
     </ScrollView>

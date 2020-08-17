@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.adut.pasar.app.R
 import com.adut.pasar.app.base.BaseFragment
+import com.adut.pasar.app.feature.DashboardViewModel
 import com.adut.pasar.app.feature.edit.EditActivity
 import com.adut.pasar.domain.model.Item
 import com.arlib.floatingsearchview.FloatingSearchView
@@ -19,6 +20,7 @@ import kotlinx.android.synthetic.main.product_layout.*
 
 
 class ProductFragment : BaseFragment() {
+    lateinit var dashboardViewModel: DashboardViewModel
     lateinit var viewModel: ProductViewModel
     lateinit var adapter: ItemAdapter
     val productData : ArrayList<Item>
@@ -30,6 +32,7 @@ class ProductFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         component.inject(this)
+        dashboardViewModel = ViewModelProvider(requireActivity()).get(DashboardViewModel::class.java)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ProductViewModel::class.java)
         return inflater.inflate(getLayout(), container, false)
     }
@@ -96,6 +99,22 @@ class ProductFragment : BaseFragment() {
     }
 
     override fun initObserver(){
+
+        dashboardViewModel.reloadProductView.observe(this, Observer {
+            it?.let {
+                refreshData()
+                productSearchView?.clearQuery()
+                viewModel.onSearchProduct("")
+            }
+        })
+
+        dashboardViewModel.updateProductView.observe(this, Observer {
+            it?.let {
+                refreshData()
+                viewModel.onSearchProduct(productSearchView?.query.toString())
+            }
+        })
+
         viewModel.productLiveData.observe(this, Observer {
             if(it != null){
                 productData.clear()

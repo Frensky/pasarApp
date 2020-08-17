@@ -26,6 +26,9 @@ interface ItemDAO {
     @Query("SELECT DISTINCT quantityType from ItemEntity ORDER BY quantityType ASC")
     suspend fun getQuantityType(): List<String>
 
+    @Query("SELECT id from ItemEntity ORDER BY id DESC")
+    suspend fun getIdDesc(): List<Long>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveItem(item: ItemEntity)
 

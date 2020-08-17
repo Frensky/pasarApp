@@ -1,6 +1,8 @@
 package com.adut.pasar.app.feature.edit
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.SystemClock
@@ -16,13 +18,16 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.TextView.OnEditorActionListener
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.adut.pasar.app.R
 import com.adut.pasar.app.base.BaseFragment
 import com.adut.pasar.app.util.FunctionUtil
+import com.adut.pasar.app.view.YesNoDialog
 import com.adut.pasar.domain.model.Item
 import com.google.android.material.textfield.TextInputEditText
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.product_edit__page.*
 import java.lang.Exception
 
@@ -93,27 +98,38 @@ class EditFragment : BaseFragment() {
         })
 
         edit_simpan_btn?.setOnClickListener {
-            val item = Item()
-            item.title = edit_et_product_name?.text.toString()
-            val qty = edit_et_qty.text.toString()
-            var qtyItem = 0
-            if(!qty.isNullOrEmpty()){
-                try {
-                    qtyItem = qty.toInt()
-                }
-                catch (e:Exception){
+            if(isDataValid()){
+                val item = Item()
+                item.title = edit_et_product_name?.text.toString()
+                val qty = edit_et_qty.text.toString()
+                var qtyItem = 0
+                if(!qty.isNullOrEmpty()){
+                    try {
+                        qtyItem = qty.toInt()
+                    }
+                    catch (e:Exception){
 
+                    }
                 }
+                item.qty = qtyItem
+                val qtyType = edit_sp_qty_type.selectedItem.toString()
+                item.qtyType = qtyType
+                item.beli = getFormattedNumber(edit_et_sell?.text.toString())
+                item.jual = getFormattedNumber(edit_et_buy?.text.toString())
+                item.distributor = edit_et_supplier_name?.text.toString()
+                item.barCodeId =  edit_tv_barcode?.text.toString()
+                item.isBookmarked = viewModel.isProductBookmarked()
+
+                viewModel.saveProductData(item)
             }
-            item.qty = qtyItem
-            val qtyType = edit_sp_qty_type.selectedItem.toString()
-            item.qtyType = qtyType
-            item.beli = getFormattedNumber(edit_et_sell?.text.toString())
-            item.jual = getFormattedNumber(edit_et_buy?.text.toString())
-            item.distributor = edit_et_supplier_name?.text.toString()
-            item.barCodeId =  edit_tv_barcode?.text.toString()
-            item.isBookmarked =  edit_cb_favorite?.isChecked ?: false
-            viewModel.saveProductData(item)
+        }
+
+        fav_icn?.setOnClickListener {
+            viewModel.updateBookmarkState()
+        }
+
+        edit_hapus_btn?.setOnClickListener {
+            showDeleteDialog()
         }
 
         addCurrencyTextWatcher(edit_et_sell)
@@ -132,6 +148,12 @@ class EditFragment : BaseFragment() {
             }
         })
 
+        viewModel.showErrorDialog.observe(this, Observer { error ->
+            if(!error.isNullOrEmpty()){
+                Toast.makeText(requireContext(),error,Toast.LENGTH_LONG).show()
+            }
+        })
+
         viewModel.quantityTypeLiveData.observe(this, Observer {
             if(it != null){
                 qtyTypeData.clear()
@@ -143,8 +165,20 @@ class EditFragment : BaseFragment() {
         viewModel.submitItemLiveData.observe(this, Observer {
             if(it != null){
                 if(it){
+                    val returnIntent = Intent()
+                    returnIntent.putExtra("reloadData", true)
+                    activity?.setResult(Activity.RESULT_OK, returnIntent)
                     activity?.finish()
                 }
+            }
+        })
+
+        viewModel.bookmarkState.observe(this, Observer {
+            if(it ?: false){
+                fav_icn?.setImageResource(R.drawable.bookmark_check)
+            }
+            else{
+                fav_icn?.setImageResource(R.drawable.bookmark_uncheck)
             }
         })
 
@@ -153,16 +187,20 @@ class EditFragment : BaseFragment() {
                if(it.type.equals("add")){
                    edit_et_product_name?.setText(it.items.title)
                    edit_txt_title?.setText("Tambah Data Produk")
+                   edit_hapus_btn?.visibility = View.GONE
+
                    edit_et_qty?.setText("")
                    edit_et_sell?.setText("")
                    edit_et_buy?.setText("")
                    edit_et_supplier_name?.setText("")
                    edit_tv_barcode?.setText("")
-                   edit_cb_favorite?.isChecked = false
+                   fav_icn?.setImageResource(R.drawable.bookmark_uncheck)
                }
                 else{
                     val selectedItem = it.items
                    edit_txt_title?.setText("Edit Data Produk")
+                   edit_hapus_btn?.visibility = View.VISIBLE
+
                    edit_et_product_name?.setText(selectedItem.title)
                    edit_et_supplier_name?.setText(selectedItem.distributor)
 
@@ -200,13 +238,6 @@ class EditFragment : BaseFragment() {
                    }
                    else{
                        edit_tv_barcode?.setText(selectedItem.barCodeId)
-                   }
-
-
-                   if(selectedItem.isBookmarked){
-                       edit_cb_favorite?.isChecked = true
-                   } else{
-                       edit_cb_favorite?.isChecked = false
                    }
                }
             }
@@ -268,6 +299,72 @@ class EditFragment : BaseFragment() {
             val inputManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             // check if no view has focus:
             inputManager.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+    }
+
+    private fun showDeleteDialog(){
+        val dialogs = YesNoDialog()
+        dialogs.setContent("Apakah anda yakin untuk menghapus data ini?")
+
+        dialogs.setListener(object : YesNoDialog.YesNoDialogListener{
+            override fun onYesClick() {
+                viewModel.deleteProductData()
+            }
+
+            override fun onDismmisClick() {
+
+            }
+        })
+
+        val ft = requireActivity().supportFragmentManager.beginTransaction()
+        ft.add(dialogs, null)
+        ft.commitAllowingStateLoss()
+    }
+
+    private fun isDataValid():Boolean{
+        var isValid = true
+
+        if(edit_et_product_name.text.toString().isNullOrEmpty()){
+            isValid = false
+            edit_tl_product_name.error = "Tolong masukkan nama Item"
+        }
+        else{
+            edit_tl_product_name.error = ""
+        }
+
+        if(edit_et_qty.text.toString().isNullOrEmpty()){
+            isValid = false
+            setQtyError(true)
+        }
+        else{
+            var qtyItem = 0
+            try {
+                qtyItem = edit_et_qty.text.toString().toInt()
+            }
+            catch (e:Exception){
+
+            }
+
+            if(qtyItem <= 0){
+                isValid = false
+                setQtyError(true)
+            }
+            else{
+                setQtyError(false)
+            }
+        }
+
+        return isValid
+    }
+
+    private fun setQtyError(isError:Boolean){
+        if(isError){
+            edit_label_qty.setTextColor(resources.getColor(R.color.color_text_red))
+            edit_error_qty.visibility = View.VISIBLE
+        }
+        else{
+            edit_label_qty.setTextColor(resources.getColor(R.color.color_text_dark))
+            edit_error_qty.visibility = View.GONE
         }
     }
 

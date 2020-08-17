@@ -1,6 +1,9 @@
 package com.adut.pasar.app.feature
 
+import android.app.Activity
+import android.content.Intent
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.adut.pasar.app.R
 import com.adut.pasar.app.base.BaseActivity
 import com.adut.pasar.app.feature.edit.EditActivity
@@ -13,6 +16,7 @@ import kotlinx.android.synthetic.main.dashboard_layout.*
 class DashboardActivity : BaseActivity() {
 
     private var selectedTab = 0
+    private lateinit var viewModel :DashboardViewModel
 
     override fun getLayout():Int{
         return R.layout.dashboard_layout
@@ -23,6 +27,7 @@ class DashboardActivity : BaseActivity() {
             if(selectedTab != 0){
                 selectedTab = 0
                 dashboard_flipper_main.displayedChild = 0
+                viewModel.reloadProductPage()
             }
             updateTabLayout()
         }
@@ -31,6 +36,7 @@ class DashboardActivity : BaseActivity() {
             if(selectedTab != 1){
                 selectedTab = 1
                 dashboard_flipper_main.displayedChild = 1
+                viewModel.reloadFavoritePage()
             }
             updateTabLayout()
         }
@@ -39,6 +45,7 @@ class DashboardActivity : BaseActivity() {
             if(selectedTab != 2){
                 selectedTab = 2
                 dashboard_flipper_main.displayedChild = 2
+                viewModel.reloadSyncronPage()
             }
             updateTabLayout()
         }
@@ -47,6 +54,7 @@ class DashboardActivity : BaseActivity() {
             if(selectedTab != 3){
                 selectedTab = 3
                 dashboard_flipper_main.displayedChild = 3
+                viewModel.reloadSettingPage()
             }
             updateTabLayout()
         }
@@ -61,8 +69,25 @@ class DashboardActivity : BaseActivity() {
         }
     }
 
-    override fun initObserver() {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
+        when (requestCode) {
+            EditActivity.ACT_RESULT -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    if(selectedTab == 0){
+                        viewModel.updateProductPage()
+                    }
+                    else if(selectedTab == 1){
+                        viewModel.reloadFavoritePage()
+                    }
+                }
+            }
+        }
+    }
+
+    override fun initObserver() {
+        viewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
     }
 
     override fun initView() {

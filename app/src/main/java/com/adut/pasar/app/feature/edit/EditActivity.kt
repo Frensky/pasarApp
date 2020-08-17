@@ -3,6 +3,7 @@ package com.adut.pasar.app.feature.edit
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import com.adut.pasar.app.R
 import com.adut.pasar.app.base.BaseActivity
 
@@ -38,17 +39,19 @@ class EditActivity : BaseActivity() {
     }
 
     companion object {
-        fun launchActivity(activity : Activity,itemId:Long){
+        val ACT_RESULT = 328
+
+        fun launchActivity(activity : Activity, itemId:Long){
             val intent = Intent(activity, EditActivity::class.java)
             intent.putExtra("ITEM_ID",itemId)
-            activity.startActivity(intent)
+            activity.startActivityForResult(intent,ACT_RESULT)
         }
 
         fun launchAddActivity(activity : Activity,productName:String){
             val intent = Intent(activity, EditActivity::class.java)
             intent.putExtra("ITEM_ID",-1)
             intent.putExtra("ITEM_NAME",productName)
-            activity.startActivity(intent)
+            activity.startActivityForResult(intent,ACT_RESULT)
         }
     }
 
