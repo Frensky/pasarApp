@@ -8,10 +8,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.adut.pasar.app.R
 import com.adut.pasar.app.base.BaseFragment
+import com.adut.pasar.app.base.OpenFileFragment
 import kotlinx.android.synthetic.main.setting_layout.*
 
 
-class SettingFragment : BaseFragment() {
+class SettingFragment : OpenFileFragment() {
     lateinit var viewModel: SettingViewModel
 
     init {
@@ -84,7 +85,15 @@ class SettingFragment : BaseFragment() {
     }
 
     fun changeExportLocationPath(){
+         openDirectoryPathSelector()
+    }
 
+    override fun onFileSelectorPermissionApproved() {
+        openDirectoryPathSelector()
+    }
+
+    override fun directoryPathDidSelected(path: String) {
+          viewModel.setExportPath(path)
     }
 
 }

@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.adut.pasar.app.R
 import com.adut.pasar.app.base.BaseFragment
+import com.adut.pasar.app.base.OpenFileFragment
 import com.adut.pasar.app.util.AppConstant
 import com.adut.pasar.app.util.PermisionHelper
 import ir.androidexception.filepicker.dialog.SingleFilePickerDialog
@@ -17,9 +18,8 @@ import ir.androidexception.filepicker.interfaces.OnConfirmDialogListener
 import kotlinx.android.synthetic.main.syncron_page_layout.*
 import java.io.File
 
-class SyncronFragment : BaseFragment() {
+class SyncronFragment : OpenFileFragment() {
     lateinit var viewModel: SyncronViewModel
-    var shouldOpenFileSelector = false
 
     init {
 
@@ -55,24 +55,6 @@ class SyncronFragment : BaseFragment() {
 
     }
 
-    private fun openFileSelector(){
-        if (PermisionHelper.hasPermissions(activity, *AppConstant.FILE_PERMISION)) {
-            val singleFilePickerDialog = SingleFilePickerDialog(requireActivity(),
-                OnCancelPickerDialogListener {
-
-                },
-                OnConfirmDialogListener { files: Array<File> ->
-                    if(!files.isNullOrEmpty()){
-                        viewModel.processCsvData(files[0])
-                    }
-                }
-            )
-            singleFilePickerDialog.show()
-        } else {
-            requestPermission()
-        }
-    }
-
     override fun initObserver(){
         viewModel.showLoadingDialog.observe(this, Observer { isLoading ->
             if(isLoading!= null){
@@ -93,33 +75,12 @@ class SyncronFragment : BaseFragment() {
         })
     }
 
+    override fun fileDataDidSelected(file: File) {
+        viewModel.processCsvData(file)
+    }
+
     override fun updateUI(){
 
-    }
-
-    private fun requestPermission() {
-        requestPermissions( AppConstant.FILE_PERMISION,
-            1)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        when (requestCode) {
-            1 -> {
-                if (PermisionHelper.hasPermissions(activity, *AppConstant.FILE_PERMISION)) {
-                    shouldOpenFileSelector = true
-                }
-            }
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (shouldOpenFileSelector) {
-            shouldOpenFileSelector = false
-            openFileSelector()
-        }
     }
 
     companion object {
