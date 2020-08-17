@@ -46,7 +46,7 @@ class SyncronFragment : OpenFileFragment() {
         }
 
         btnExport?.setOnClickListener {
-            Toast.makeText(context,"Coming Soon",Toast.LENGTH_SHORT).show()
+            viewModel.exportCSVData()
         }
 
         btnTest?.setOnClickListener {
@@ -73,10 +73,20 @@ class SyncronFragment : OpenFileFragment() {
                     Toast.makeText(requireContext(),message,Toast.LENGTH_LONG).show()
                 }
         })
+
+        viewModel.openDirectorySelector.observe(this,Observer{data ->
+            if(data ==  true){
+                openDirectoryPathSelector()
+            }
+        })
     }
 
     override fun fileDataDidSelected(file: File) {
         viewModel.processCsvData(file)
+    }
+
+    override fun directoryPathDidSelected(path: String) {
+        viewModel.setExportPath(path)
     }
 
     override fun updateUI(){
