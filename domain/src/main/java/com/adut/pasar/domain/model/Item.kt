@@ -9,4 +9,10 @@ data class Item(
     var beli : Long = 0,
     var distributor : String = "",
     var barCodeId : String = ""
-)
+){
+    fun mapToCSVString(iterator:Int?) : String {
+        val counter : String = iterator?.toString() ?: id.toString()
+        val bookmarkFlag = if(isBookmarked) "Ya" else "Tidak"
+        return counter+","+title+","+qty+","+qtyType+","+beli+","+jual+",,"+distributor+",,"+barCodeId+","+bookmarkFlag+"\n"
+    }
+}

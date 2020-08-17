@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.adut.pasar.app.R
-import com.adut.pasar.app.base.BaseFragment
+import com.adut.pasar.app.base.OpenFileFragment
 import com.adut.pasar.app.feature.DashboardViewModel
 import kotlinx.android.synthetic.main.setting_layout.*
 
 
-class SettingFragment : BaseFragment() {
+class SettingFragment : OpenFileFragment() {
     lateinit var dashboardViewModel: DashboardViewModel
     lateinit var viewModel: SettingViewModel
 
@@ -93,7 +93,15 @@ class SettingFragment : BaseFragment() {
     }
 
     fun changeExportLocationPath(){
+         openDirectoryPathSelector()
+    }
 
+    override fun onFileSelectorPermissionApproved() {
+        openDirectoryPathSelector()
+    }
+
+    override fun directoryPathDidSelected(path: String) {
+          viewModel.setExportPath(path)
     }
 
 }
