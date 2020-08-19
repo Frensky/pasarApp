@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.adut.pasar.app.R
 import com.adut.pasar.app.base.BaseActivity
+import com.adut.pasar.app.feature.edit.BarcodeActivity
 import com.adut.pasar.app.feature.edit.EditActivity
 import com.adut.pasar.app.feature.favorite.FavoriteFragment
 import com.adut.pasar.app.feature.product.ProductFragment
@@ -64,8 +65,7 @@ class DashboardActivity : BaseActivity() {
         }
 
         dashboard_icon_barcode.setOnClickListener{
-            //open settinga activity
-            Toast.makeText(this,"coming soon..",Toast.LENGTH_LONG).show()
+            BarcodeActivity.launchBarcodeActivity(this)
         }
     }
 
@@ -80,6 +80,13 @@ class DashboardActivity : BaseActivity() {
                     }
                     else if(selectedTab == 1){
                         viewModel.reloadFavoritePage()
+                    }
+                }
+            }
+            BarcodeActivity.BARCODE_RESULT -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    data?.extras?.getString("barcode").let {
+                        Toast.makeText(this, "Scan result: ${it}", Toast.LENGTH_LONG).show()
                     }
                 }
             }
