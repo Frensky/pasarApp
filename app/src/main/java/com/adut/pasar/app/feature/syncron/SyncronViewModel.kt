@@ -11,8 +11,10 @@ import com.adut.pasar.domain.usecase.setting.GetExportLocationPath
 import com.adut.pasar.domain.usecase.setting.SetExportLocationPath
 import com.adut.pasar.domain.usecase.syncron.ImportDataUseCase
 import com.adut.pasar.domain.util.LogUtil
+import com.opencsv.CSVWriter
 import kotlinx.coroutines.launch
 import java.io.File
+import java.io.FileWriter
 import javax.inject.Inject
 
 class SyncronViewModel @Inject constructor(
@@ -26,6 +28,7 @@ class SyncronViewModel @Inject constructor(
     val showLoadingDialog: SingleLiveEvent<Boolean?> = SingleLiveEvent()
     val syncronViewState: SingleLiveEvent<SyncronViewState?> = SingleLiveEvent()
     val openDirectorySelector : SingleLiveEvent<Boolean?> = SingleLiveEvent()
+    val showCSVToast: SingleLiveEvent<String> = SingleLiveEvent()
 
     fun processCsvData(file : File){
         viewModelScope.launch {
@@ -53,17 +56,36 @@ class SyncronViewModel @Inject constructor(
         viewModelScope.launch {
             val path = getExportLocationPath.execute()
             if(path != null) {
+                val fileName = path!!+"/DataHargaBarangPasar.csv"
+                val file = File(fileName)
+                var writer : CSVWriter
+                if(file.exists() && !file.isDirectory){
+                   val fileWriter =  FileWriter(fileName,true)
+                   writer = CSVWriter(fileWriter)
+                }
+                else{
+                    writer = CSVWriter(FileWriter(fileName))
+                }
+
+               val firstData = arrayOf(
+                "No","Nama Barang","Satuan Barang","Jenis Satuan","Harga Beli (Rp)","Harga Jual (Rp)","Keterangan","Nama Suplier","No Kontak Suplier","Barcode ID", "Simpan ke favorit")
+                writer.writeNext(firstData);
+
                 val itemData = getTopItemUseCase.execute() ?: ArrayList<Item>()
                 var iterator = 0
                 val listItemInSCVString = itemData.map {
                     iterator++
-                    it.mapToCSVString(iterator)
+                    it.mapToCSVStringArray(iterator)
                 }
-                val firstData =
-                    "No,Nama Barang,Satuan Barang,Jenis Satuan,Harga Beli (Rp),Harga Jual (Rp),Keterangan,Nama Suplier,No Kontak Suplier,Barcode ID, Simpan ke favorit \n"
-                var csvString = listItemInSCVString.reduce { acc, s -> acc + s }
-                csvString = firstData + csvString
-                LogUtil.logError(csvString)
+
+                listItemInSCVString.forEach {
+                    writer.writeNext(it)
+                }
+
+                writer.close();
+
+                showCSVToast.value = "Data sudah tersimpan di "+fileName
+
             } else{
                 openDirectorySelector.value = true
             }

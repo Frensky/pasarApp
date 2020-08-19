@@ -84,6 +84,10 @@ class SyncronFragment : OpenFileFragment() {
                 openDirectoryPathSelector()
             }
         })
+
+        viewModel.showCSVToast.observe(this,Observer{data ->
+            Toast.makeText(requireContext(),data,Toast.LENGTH_LONG).show()
+        })
     }
 
     override fun fileDataDidSelected(file: File) {

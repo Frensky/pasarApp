@@ -10,9 +10,9 @@ data class Item(
     var distributor : String = "",
     var barCodeId : String = ""
 ){
-    fun mapToCSVString(iterator:Int?) : String {
+    fun mapToCSVStringArray(iterator:Int?) : Array<String> {
         val counter : String = iterator?.toString() ?: id.toString()
         val bookmarkFlag = if(isBookmarked) "Ya" else "Tidak"
-        return counter+","+title+","+qty+","+qtyType+","+beli+","+jual+",,"+distributor+",,"+barCodeId+","+bookmarkFlag+"\n"
+        return arrayOf(counter,title,qty.toString(),qtyType.toString(),beli.toString(),jual.toString(),"",distributor,"",barCodeId,bookmarkFlag)
     }
 }
