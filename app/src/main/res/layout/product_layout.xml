@@ -82,15 +82,17 @@
                 />
 
             <TextView
+                android:id="@+id/product_empty_text_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Maaf Datanya Tidak Ada"
-                android:textSize="22sp"
-                android:textStyle="bold"
                 android:layout_gravity="center"
                 android:layout_marginLeft="22dp"
                 android:layout_marginRight="22dp"
-                android:textColor="@color/colorPrimary"/>
+                android:text="Maaf Datanya Tidak Ada"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/product_tambah_btn"

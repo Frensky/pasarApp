@@ -8,7 +8,12 @@ class SearchTitleByKeyWordUseCase @Inject constructor(
     private val repository: ItemRepository
 ) {
     suspend fun execute(keyWord : String): List<String> {
-        val response = repository.searchTitleByKeyWord(keyWord)
+        val response = repository.searchTitleByKeyWord(keyWord,false)
+        return response
+    }
+
+    suspend fun executeFavorite(keyWord : String): List<String> {
+        val response = repository.searchTitleByKeyWord(keyWord,true)
         return response
     }
 }

@@ -8,8 +8,8 @@ interface ItemRepository {
     suspend fun getItemById(Id: Long): Item?
 
     suspend fun getItemByBarcodeId(Id: String): Item?
-    suspend fun searchItemByKeyWord(key:String): List<Item>
-    suspend fun searchTitleByKeyWord(key:String): List<String>
+    suspend fun searchItemByKeyWord(key:String,isFavorite:Boolean): List<Item>
+    suspend fun searchTitleByKeyWord(key:String,isFavorite:Boolean): List<String>
 
     suspend fun getItemQuantityType(): List<String>
 

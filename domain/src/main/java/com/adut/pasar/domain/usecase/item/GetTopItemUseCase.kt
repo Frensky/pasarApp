@@ -11,4 +11,9 @@ class GetTopItemUseCase @Inject constructor(
         val response = repository.getTopItem()
         return response
     }
+
+    suspend fun executeFavorite(): List<Item>? {
+        val response = repository.getFavoriteItem()
+        return response
+    }
 }

@@ -13,7 +13,7 @@ import com.adut.pasar.domain.usecase.setting.IsJualShownUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ProductViewModel @Inject constructor(
+open class ProductViewModel @Inject constructor(
     private val getAllItemUseCase: GetTopItemUseCase,
     private val searchItemByKeyWordUseCase: SearchItemByKeyWordUseCase,
     private val searchTitleByKeyWordUseCase: SearchTitleByKeyWordUseCase,
@@ -23,15 +23,15 @@ class ProductViewModel @Inject constructor(
     val productLiveData: SingleLiveEvent<ArrayList<Item>?> = SingleLiveEvent()
     val titleLiveData: SingleLiveEvent<ArrayList<String>?> = SingleLiveEvent()
     val segmentUILiveData: SingleLiveEvent<Boolean?> = SingleLiveEvent()
-    private val allProductData : ArrayList<Item>
-    private var queryString = ""
+    internal val allProductData : ArrayList<Item>
+    internal var queryString = ""
 
     init {
         allProductData = ArrayList()
     }
 
 
-    fun refreshAllData(){
+    open fun refreshAllData(){
         viewModelScope.launch {
             val result = getAllItemUseCase.execute()
             if(result != null){
@@ -44,7 +44,7 @@ class ProductViewModel @Inject constructor(
         }
     }
 
-    fun onSearchProduct(key : String?){
+    open fun onSearchProduct(key : String?){
         queryString = key ?: ""
         if(queryString.length < AppConstant.WORD_LIMIT){
             productLiveData.value = allProductData
@@ -59,7 +59,7 @@ class ProductViewModel @Inject constructor(
         }
     }
 
-    fun onSearchTitle(key : String?){
+    open fun onSearchTitle(key : String?){
         queryString = key ?: ""
         if(queryString.length < AppConstant.WORD_LIMIT){
             titleLiveData.value = ArrayList()

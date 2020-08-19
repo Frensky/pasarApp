@@ -16,14 +16,20 @@ class ItemDataRepository @Inject constructor(
         return result
     }
 
-    override suspend fun searchItemByKeyWord(key: String): List<Item> {
-        val response = itemDAO.getItemsByKeyWord(key)
+    override suspend fun searchItemByKeyWord(key: String, isFavorite: Boolean): List<Item> {
+        var response = itemDAO.getItemsByKeyWord(key)
+        if(isFavorite){
+          response = itemDAO.getFavItemsByKeyWord(key)
+        }
         val result = response.map { it.mapToEntity() }
         return result
     }
 
-    override suspend fun searchTitleByKeyWord(key: String): List<String> {
-        val response = itemDAO.getTitleByKeyWord(key)
+    override suspend fun searchTitleByKeyWord(key: String, isFavorite: Boolean): List<String> {
+        var response = itemDAO.getTitleByKeyWord(key)
+        if(isFavorite){
+            response = itemDAO.getTitleByKeyWord(key)
+        }
         return response
     }
 

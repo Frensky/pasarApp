@@ -11,17 +11,23 @@ interface ItemDAO {
     @Query("SELECT * from ItemEntity WHERE title LIKE '%'||:keyword||'%' ORDER BY title ASC")
     suspend fun getItemsByKeyWord(keyword:String): List<ItemEntity>
 
+    @Query("SELECT title from ItemEntity WHERE title LIKE '%'||:keyword||'%' ")
+    suspend fun getTitleByKeyWord(keyword:String): List<String>
+
     @Query("select * from ItemEntity WHERE isBookMark = 1 ORDER BY title ASC")
     suspend fun getFavoriteItems(): List<ItemEntity>
+
+    @Query("SELECT * from ItemEntity WHERE title LIKE '%'||:keyword||'%' AND isBookMark = 1 ORDER BY title ASC")
+    suspend fun getFavItemsByKeyWord(keyword:String): List<ItemEntity>
+
+    @Query("SELECT title from ItemEntity WHERE title LIKE '%'||:keyword||'%' AND isBookMark = 1 ")
+    suspend fun getFavTitleByKeyWord(keyword:String): List<String>
 
     @Query("SELECT * from ItemEntity WHERE id = :itemId")
     suspend fun getItemById(itemId:Long): ItemEntity?
 
     @Query("SELECT * from ItemEntity WHERE barCodeId = :keyword")
     suspend fun getItemsByBarCode(keyword:String): List<ItemEntity>
-
-    @Query("SELECT title from ItemEntity WHERE title LIKE '%'||:keyword||'%' ")
-    suspend fun getTitleByKeyWord(keyword:String): List<String>
 
     @Query("SELECT DISTINCT quantityType from ItemEntity ORDER BY quantityType ASC")
     suspend fun getQuantityType(): List<String>

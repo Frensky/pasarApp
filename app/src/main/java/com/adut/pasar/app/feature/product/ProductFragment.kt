@@ -19,7 +19,7 @@ import com.demo.img.adapter.ItemAdapter
 import kotlinx.android.synthetic.main.product_layout.*
 
 
-class ProductFragment : BaseFragment() {
+open class ProductFragment : BaseFragment() {
     lateinit var dashboardViewModel: DashboardViewModel
     lateinit var viewModel: ProductViewModel
     lateinit var adapter: ItemAdapter
@@ -98,8 +98,7 @@ class ProductFragment : BaseFragment() {
         }
     }
 
-    override fun initObserver(){
-
+    open fun observeDashboardViewModel(){
         dashboardViewModel.reloadProductView.observe(this, Observer {
             it?.let {
                 refreshData()
@@ -114,6 +113,12 @@ class ProductFragment : BaseFragment() {
                 viewModel.onSearchProduct(productSearchView?.query.toString())
             }
         })
+    }
+
+
+    override fun initObserver(){
+
+        observeDashboardViewModel()
 
         viewModel.productLiveData.observe(this, Observer {
             if(it != null){
@@ -160,7 +165,7 @@ class ProductFragment : BaseFragment() {
         viewModel.onSearchProduct(productSearchView?.query.toString())
     }
 
-    private fun refreshData(){
+    protected fun refreshData(){
         viewModel.refreshAllData()
         viewModel.checkSegmentUi()
     }

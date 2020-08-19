@@ -4,19 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.adut.pasar.app.R
 import com.adut.pasar.app.base.BaseFragment
 import com.adut.pasar.app.feature.DashboardViewModel
+import com.adut.pasar.app.feature.product.ProductFragment
+import com.adut.pasar.app.feature.product.ProductViewModel
+import kotlinx.android.synthetic.main.product_layout.*
 
-class FavoriteFragment : BaseFragment() {
-    lateinit var dashboardViewModel: DashboardViewModel
-    lateinit var viewModel: FavoriteViewModel
-
-    init {
-
-    }
+class FavoriteFragment : ProductFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -26,28 +24,21 @@ class FavoriteFragment : BaseFragment() {
         return inflater.inflate(getLayout(), container, false)
     }
 
-    override fun getLayout():Int{
-        return R.layout.favorite_layout
+
+    override fun initView() {
+        super.initView()
+        product_tambah_btn.visibility = View.GONE
+        product_empty_text_label.text = "Maaf, data tidak diketemukan / belum dimasukan kedalam list favorite"
     }
 
-    override fun initView(){
-
-    }
-
-    override fun setUICallbacks(){
-
-    }
-
-    override fun initObserver(){
+    override fun observeDashboardViewModel(){
         dashboardViewModel.reloadFavoriteView.observe(this, Observer {
             it?.let {
-                //do refresh here
+                refreshData()
+                productSearchView?.clearQuery()
+                viewModel.onSearchProduct("")
             }
         })
-    }
-
-    override fun updateUI(){
-
     }
 
     companion object {

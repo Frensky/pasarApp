@@ -47,8 +47,8 @@ class TestUseCase @Inject constructor(
        val quantityType = repository.getItemQuantityType()
         LogUtil.log("Qty Type :"+quantityType)
 
-        val searchedItem = repository.searchItemByKeyWord(title)
-        val searchedTitle = repository.searchTitleByKeyWord(title)
+        val searchedItem = repository.searchItemByKeyWord(title,false)
+        val searchedTitle = repository.searchTitleByKeyWord(title,false)
         assert(searchedItem.first().title == searchedTitle.first()){
             LogUtil.logError("TITLE GA MATCHING")
         }
