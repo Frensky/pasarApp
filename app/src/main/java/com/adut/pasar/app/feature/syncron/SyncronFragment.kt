@@ -47,10 +47,6 @@ class SyncronFragment : OpenFileFragment() {
             viewModel.exportCSVData()
         }
 
-        btnTest?.setOnClickListener {
-            viewModel.testUseCaseProcess()
-        }
-
     }
 
     override fun initObserver(){
@@ -70,13 +66,6 @@ class SyncronFragment : OpenFileFragment() {
                     dismissLoadingDialog()
                 }
             }
-        })
-
-        viewModel.syncronViewState.observe(this, Observer { data ->
-                if(data?.data != null){
-                    val message = data.data.message
-                    Toast.makeText(requireContext(),message,Toast.LENGTH_LONG).show()
-                }
         })
 
         viewModel.openDirectorySelector.observe(this,Observer{data ->

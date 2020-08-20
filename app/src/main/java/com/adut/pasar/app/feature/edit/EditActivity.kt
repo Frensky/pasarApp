@@ -2,10 +2,15 @@ package com.adut.pasar.app.feature.edit
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat
 import com.adut.pasar.app.R
 import com.adut.pasar.app.base.BaseActivity
+import com.adut.pasar.app.util.AppConstant
+import com.adut.pasar.app.util.PermisionHelper
+import java.util.jar.Manifest
+
 
 class EditActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +42,7 @@ class EditActivity : BaseActivity() {
     override fun updateUI() {
 
     }
+
 
     companion object {
         val ACT_RESULT = 328

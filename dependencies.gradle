@@ -67,8 +67,6 @@ ext {
     androidXTestCore = "androidx.test:core:$androidXTestCoreVersion"
     androidArchitectureCoreTesting = "androidx.arch.core:core-testing:$androidXCoreTestingVersion"
 
-
-
     domainDependencies = {
 
         implementation "$kotlin"
@@ -111,6 +109,8 @@ ext {
 
         debugImplementation "$chuckerDebug"
         releaseImplementation "$chuckerDebug"
+        
+        compile group: 'com.opencsv', name: 'opencsv', version: '5.2'
 
         testImplementation "$kotlinCoroutines"
         testImplementation "$kotlinCoroutinesTest"

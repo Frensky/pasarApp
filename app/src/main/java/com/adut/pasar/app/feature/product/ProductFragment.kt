@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -113,6 +114,12 @@ open class ProductFragment : BaseFragment() {
                 viewModel.onSearchProduct(productSearchView?.query.toString())
             }
         })
+
+        dashboardViewModel.searchProductByBarCode.observe(this, Observer {
+            it?.let {
+                viewModel.onSearchByBarCode(it)
+            }
+        })
     }
 
 
@@ -157,6 +164,17 @@ open class ProductFragment : BaseFragment() {
                 else{
                     product_segment?.visibility = View.GONE
                 }
+            }
+        })
+
+        viewModel.barCodeData.observe(this, Observer {
+            if(it != null){
+                productSearchView?.clearQuery()
+                productSearchView?.setSearchText(it.title)
+                viewModel.onSearchProduct(it.title)
+            }
+            else{
+                Toast.makeText(requireContext(),"Kode Barcode belum terdaftar",Toast.LENGTH_LONG).show()
             }
         })
     }

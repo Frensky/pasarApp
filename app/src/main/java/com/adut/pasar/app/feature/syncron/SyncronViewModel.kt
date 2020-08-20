@@ -9,6 +9,7 @@ import com.adut.pasar.domain.usecase.item.GetTopItemUseCase
 import com.adut.pasar.domain.usecase.item.TestUseCase
 import com.adut.pasar.domain.usecase.setting.GetExportLocationPath
 import com.adut.pasar.domain.usecase.setting.SetExportLocationPath
+import com.adut.pasar.domain.usecase.syncron.ExportDataUseCase
 import com.adut.pasar.domain.usecase.syncron.ImportDataUseCase
 import com.adut.pasar.domain.util.LogUtil
 import com.opencsv.CSVWriter
@@ -19,10 +20,9 @@ import javax.inject.Inject
 
 class SyncronViewModel @Inject constructor(
     private val importDataUseCase: ImportDataUseCase,
-    private val getTopItemUseCase: GetTopItemUseCase,
+    private val exportDataUseCase: ExportDataUseCase,
     private val getExportLocationPath: GetExportLocationPath,
-    private val setExportLocationPath: SetExportLocationPath,
-    private val testUseCase: TestUseCase
+    private val setExportLocationPath: SetExportLocationPath
 ) : ViewModel() {
 
     val showLoadingDialog: SingleLiveEvent<Boolean?> = SingleLiveEvent()
@@ -36,10 +36,6 @@ class SyncronViewModel @Inject constructor(
             try {
                 val response = importDataUseCase.execute(file)
                 showLoadingDialog.value = false
-                if(response.isSuccess){
-                    val itemData = getTopItemUseCase.execute() ?: ArrayList<Item>()
-                    response.message = "Total Item Size is : "+ itemData.size
-                }
                 val result = SyncronViewState(response)
                 syncronViewState.value = result
             } catch (e: Throwable) {
@@ -56,36 +52,13 @@ class SyncronViewModel @Inject constructor(
         viewModelScope.launch {
             val path = getExportLocationPath.execute()
             if(path != null) {
-                val fileName = path!!+"/DataHargaBarangPasar.csv"
-                val file = File(fileName)
-                var writer : CSVWriter
-                if(file.exists() && !file.isDirectory){
-                   val fileWriter =  FileWriter(fileName,true)
-                   writer = CSVWriter(fileWriter)
+                val files = exportDataUseCase.execute()
+                if(files != null){
+                    showCSVToast.value = "Data sudah tersimpan di "+files.absolutePath
                 }
                 else{
-                    writer = CSVWriter(FileWriter(fileName))
+                    showCSVToast.value = "Data gagal di export, mohon coba lain kali"
                 }
-
-               val firstData = arrayOf(
-                "No","Nama Barang","Satuan Barang","Jenis Satuan","Harga Beli (Rp)","Harga Jual (Rp)","Keterangan","Nama Suplier","No Kontak Suplier","Barcode ID", "Simpan ke favorit")
-                writer.writeNext(firstData);
-
-                val itemData = getTopItemUseCase.execute() ?: ArrayList<Item>()
-                var iterator = 0
-                val listItemInSCVString = itemData.map {
-                    iterator++
-                    it.mapToCSVStringArray(iterator)
-                }
-
-                listItemInSCVString.forEach {
-                    writer.writeNext(it)
-                }
-
-                writer.close();
-
-                showCSVToast.value = "Data sudah tersimpan di "+fileName
-
             } else{
                 openDirectorySelector.value = true
             }
@@ -98,13 +71,5 @@ class SyncronViewModel @Inject constructor(
             exportCSVData()
         }
     }
-
-
-    fun testUseCaseProcess(){
-        viewModelScope.launch {
-            testUseCase.execute()
-        }
-    }
-
 
 }

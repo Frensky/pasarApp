@@ -1,14 +1,10 @@
 package com.adut.pasar.app.feature.favorite
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adut.pasar.app.feature.product.ProductViewModel
 import com.adut.pasar.app.util.AppConstant
 import com.adut.pasar.domain.model.Item
-import com.adut.pasar.domain.usecase.item.GetFavoriteItemUseCase
-import com.adut.pasar.domain.usecase.item.GetTopItemUseCase
-import com.adut.pasar.domain.usecase.item.SearchItemByKeyWordUseCase
-import com.adut.pasar.domain.usecase.item.SearchTitleByKeyWordUseCase
+import com.adut.pasar.domain.usecase.item.*
 import com.adut.pasar.domain.usecase.setting.IsJualShownUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,8 +13,9 @@ class FavoriteViewModel@Inject constructor(
     private val getAllItemUseCase: GetTopItemUseCase,
     private val searchItemByKeyWordUseCase: SearchItemByKeyWordUseCase,
     private val searchTitleByKeyWordUseCase: SearchTitleByKeyWordUseCase,
+    private val searchItemByBarcodeIdUseCase: GetItemByBarcodeIdUseCase,
     private val isJualShownUseCase: IsJualShownUseCase
-): ProductViewModel(getAllItemUseCase, searchItemByKeyWordUseCase, searchTitleByKeyWordUseCase, isJualShownUseCase) {
+): ProductViewModel(getAllItemUseCase, searchItemByKeyWordUseCase, searchTitleByKeyWordUseCase,searchItemByBarcodeIdUseCase, isJualShownUseCase) {
 
     override fun refreshAllData(){
         viewModelScope.launch {

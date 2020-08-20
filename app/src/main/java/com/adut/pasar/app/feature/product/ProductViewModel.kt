@@ -6,6 +6,7 @@ import com.adut.pasar.app.feature.syncron.SyncronViewState
 import com.adut.pasar.app.util.AppConstant
 import com.adut.pasar.app.util.SingleLiveEvent
 import com.adut.pasar.domain.model.Item
+import com.adut.pasar.domain.usecase.item.GetItemByBarcodeIdUseCase
 import com.adut.pasar.domain.usecase.item.GetTopItemUseCase
 import com.adut.pasar.domain.usecase.item.SearchItemByKeyWordUseCase
 import com.adut.pasar.domain.usecase.item.SearchTitleByKeyWordUseCase
@@ -17,12 +18,16 @@ open class ProductViewModel @Inject constructor(
     private val getAllItemUseCase: GetTopItemUseCase,
     private val searchItemByKeyWordUseCase: SearchItemByKeyWordUseCase,
     private val searchTitleByKeyWordUseCase: SearchTitleByKeyWordUseCase,
+    private val searchItemByBarcodeIdUseCase: GetItemByBarcodeIdUseCase,
     private val isJualShownUseCase: IsJualShownUseCase
 ) : ViewModel() {
 
     val productLiveData: SingleLiveEvent<ArrayList<Item>?> = SingleLiveEvent()
     val titleLiveData: SingleLiveEvent<ArrayList<String>?> = SingleLiveEvent()
     val segmentUILiveData: SingleLiveEvent<Boolean?> = SingleLiveEvent()
+
+    val barCodeData: SingleLiveEvent<Item?> = SingleLiveEvent()
+
     internal val allProductData : ArrayList<Item>
     internal var queryString = ""
 
@@ -55,6 +60,19 @@ open class ProductViewModel @Inject constructor(
                 val data = ArrayList<Item>()
                 data.addAll(result)
                 productLiveData.value = data
+            }
+        }
+    }
+
+    fun onSearchByBarCode(key : String?){
+        val keys = key ?: ""
+        if(keys.isNullOrEmpty()){
+            productLiveData.value = allProductData
+        }
+        else{
+            viewModelScope.launch {
+                val result = searchItemByBarcodeIdUseCase.execute(keys)
+                barCodeData.value = result
             }
         }
     }

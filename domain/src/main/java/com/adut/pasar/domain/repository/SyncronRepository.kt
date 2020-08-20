@@ -5,5 +5,5 @@ import java.io.File
 
 interface SyncronRepository {
     suspend fun importItemData(file: File) : Boolean
-    suspend fun exportItemData(): File?
+    suspend fun exportItemData(exportPath: String,itemData:ArrayList<Item>): File?
 }

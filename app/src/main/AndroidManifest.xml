@@ -52,7 +52,7 @@
             android:windowSoftInputMode="adjustResize"/>
 
         <activity
-            android:name=".feature.edit.BarcodeActivity"
+            android:name=".feature.BarcodeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"/>
 

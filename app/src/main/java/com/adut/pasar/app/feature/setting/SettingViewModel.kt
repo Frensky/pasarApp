@@ -3,7 +3,6 @@ package com.adut.pasar.app.feature.setting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adut.pasar.app.util.SingleLiveEvent
-import com.adut.pasar.domain.model.Item
 import com.adut.pasar.domain.usecase.setting.GetExportLocationPath
 import com.adut.pasar.domain.usecase.setting.IsJualShownUseCase
 import com.adut.pasar.domain.usecase.setting.SetExportLocationPath
@@ -37,6 +36,7 @@ class SettingViewModel @Inject constructor(
     fun setExportPath(path:String){
         viewModelScope.launch {
             setExportLocationPath.execute(path)
+            exportPathLiveData.value = path
         }
     }
 

@@ -9,6 +9,10 @@ class AppConstant {
             Manifest.permission.READ_EXTERNAL_STORAGE
         )
 
+        val CAMERA_PERMISION = arrayOf(
+            Manifest.permission.CAMERA
+        )
+
         val WORD_LIMIT = 3
     }
 }

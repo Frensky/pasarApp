@@ -2,11 +2,14 @@ package com.adut.pasar.data.repository
 
 import com.adut.pasar.data.local.db.dao.ItemDAO
 import com.adut.pasar.data.model.ItemEntity
+import com.adut.pasar.domain.model.Item
 import com.adut.pasar.domain.repository.SyncronRepository
 import com.adut.pasar.domain.util.LogUtil
 import com.opencsv.CSVReader
+import com.opencsv.CSVWriter
 import java.io.File
 import java.io.FileReader
+import java.io.FileWriter
 import javax.inject.Inject
 
 
@@ -131,8 +134,38 @@ class SyncronDataRepository @Inject constructor(
         return result
     }
 
-    override suspend fun exportItemData(): File {
-        TODO("Not yet implemented")
+    override suspend fun exportItemData(exportPath:String,itemData:ArrayList<Item>): File {
+            val path = exportPath
+
+            val fileName = path +"/DataHargaBarangPasar.csv"
+            val file = File(fileName)
+
+            var writer : CSVWriter
+            if(file.exists() && !file.isDirectory){
+                val fileWriter =  FileWriter(fileName,false)
+                writer = CSVWriter(fileWriter)
+            }
+            else{
+                writer = CSVWriter(FileWriter(fileName))
+            }
+
+            val firstData = arrayOf(
+                "No","Nama Barang","Satuan Barang","Jenis Satuan","Harga Beli (Rp)","Harga Jual (Rp)","Keterangan","Nama Suplier","No Kontak Suplier","Barcode ID", "Simpan ke favorit")
+
+            writer.writeNext(firstData);
+
+            var iterator = 0
+            val listItemInSCVString = itemData.map {
+                iterator++
+                it.mapToCSVStringArray(iterator)
+            }
+
+            listItemInSCVString.forEach {
+                writer.writeNext(it)
+            }
+
+            writer.close();
+            return file
     }
 
 }

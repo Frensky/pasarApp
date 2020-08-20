@@ -17,12 +17,12 @@
     </style>
 
     <style name="ButtonGreen" parent="ButtonShort">
-        <item name="android:background">@drawable/button_selector</item>
+        <item name="android:background">@color/colorPrimary</item>
         <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
     <style name="ButtonRed" parent="ButtonShort">
-        <item name="android:background">@drawable/button_red_selector</item>
+        <item name="android:background">@color/color_text_red</item>
         <item name="android:layout_gravity">center_horizontal</item>
     </style>
 

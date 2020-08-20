@@ -28,7 +28,9 @@ class FavoriteFragment : ProductFragment() {
     override fun initView() {
         super.initView()
         product_tambah_btn.visibility = View.GONE
-        product_empty_text_label.text = "Maaf, data tidak diketemukan / belum dimasukan kedalam list favorite"
+        product_empty_text_label.text = "Maaf, data tidak ditemukan / belum masuk kedalam list favorite"
+        productSearchView?.visibility = View.GONE
+        product_divider?.visibility = View.GONE
     }
 
     override fun observeDashboardViewModel(){

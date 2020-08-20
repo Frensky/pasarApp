@@ -21,4 +21,18 @@
         app:frameSize="0.75"
         app:frameThickness="2dp"
         app:maskColor="#77000000"/>
+
+    <Button
+        android:id="@+id/cancel_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="55dp"
+        android:layout_gravity="bottom"
+        android:text="Batal"
+        android:textColor="@color/white_bg"
+        android:background="@color/color_text_red"
+        />
+
 </FrameLayout>

@@ -1,12 +1,14 @@
-package com.adut.pasar.app.feature.edit
+package com.adut.pasar.app.feature
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.adut.pasar.app.R
 import com.budiyev.android.codescanner.*
+import kotlinx.android.synthetic.main.activity_barcode.*
 
 class BarcodeActivity : AppCompatActivity() {
     private lateinit var codeScanner: CodeScanner
@@ -48,6 +50,10 @@ class BarcodeActivity : AppCompatActivity() {
         scannerView.setOnClickListener {
             codeScanner.startPreview()
         }
+
+        cancel_btn.setOnClickListener {
+            finish()
+        }
     }
 
     override fun onResume() {
@@ -65,7 +71,16 @@ class BarcodeActivity : AppCompatActivity() {
 
         fun launchBarcodeActivity(activity: Activity) {
             val intent = Intent(activity, BarcodeActivity::class.java)
-            activity.startActivityForResult(intent,BARCODE_RESULT)
+            activity.startActivityForResult(intent,
+                BARCODE_RESULT
+            )
+        }
+
+        fun launchBarcodeActivity(fragment: Fragment) {
+            val intent = Intent(fragment.activity, BarcodeActivity::class.java)
+            fragment.startActivityForResult(intent,
+                BARCODE_RESULT
+            )
         }
     }
 }

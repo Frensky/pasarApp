@@ -6,13 +6,15 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.adut.pasar.app.R
 import com.adut.pasar.app.base.BaseActivity
-import com.adut.pasar.app.feature.edit.BarcodeActivity
 import com.adut.pasar.app.feature.edit.EditActivity
 import com.adut.pasar.app.feature.favorite.FavoriteFragment
 import com.adut.pasar.app.feature.product.ProductFragment
 import com.adut.pasar.app.feature.setting.SettingFragment
 import com.adut.pasar.app.feature.syncron.SyncronFragment
+import com.adut.pasar.app.util.AppConstant
+import com.adut.pasar.app.util.PermisionHelper
 import kotlinx.android.synthetic.main.dashboard_layout.*
+import kotlinx.android.synthetic.main.product_edit__page.*
 
 class DashboardActivity : BaseActivity() {
 
@@ -65,7 +67,20 @@ class DashboardActivity : BaseActivity() {
         }
 
         dashboard_icon_barcode.setOnClickListener{
-            BarcodeActivity.launchBarcodeActivity(this)
+            if ( PermisionHelper.hasPermissions(this, *AppConstant.CAMERA_PERMISION)) {
+                BarcodeActivity.launchBarcodeActivity(this)
+            } else {
+                requestPermissions( AppConstant.CAMERA_PERMISION, 11)
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            11 -> {
+                dashboard_icon_barcode?.callOnClick()
+            }
         }
     }
 
@@ -83,10 +98,12 @@ class DashboardActivity : BaseActivity() {
                     }
                 }
             }
+
             BarcodeActivity.BARCODE_RESULT -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    data?.extras?.getString("barcode").let {
-                        Toast.makeText(this, "Scan result: ${it}", Toast.LENGTH_LONG).show()
+                    data?.extras?.getString("barcode")?.let {
+                        dashboard_tab_container_harga?.callOnClick()
+                        viewModel.searchBarCode(it)
                     }
                 }
             }

@@ -23,11 +23,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.adut.pasar.app.R
 import com.adut.pasar.app.base.BaseFragment
+import com.adut.pasar.app.feature.BarcodeActivity
+import com.adut.pasar.app.util.AppConstant
 import com.adut.pasar.app.util.FunctionUtil
+import com.adut.pasar.app.util.PermisionHelper
 import com.adut.pasar.app.view.YesNoDialog
 import com.adut.pasar.domain.model.Item
 import com.google.android.material.textfield.TextInputEditText
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.product_edit__page.*
 import java.lang.Exception
 
@@ -35,6 +37,7 @@ import java.lang.Exception
 class EditFragment : BaseFragment() {
     var selectedId : Long = -1
     var selectedProductName : String = ""
+    var selectedBarCode = ""
 
     lateinit var viewModel: EditViewModel
     val qtyTypeData : ArrayList<String> = ArrayList()
@@ -49,6 +52,13 @@ class EditFragment : BaseFragment() {
         viewModel.setInitialAddProductTitle(selectedProductName)
 
         return inflater.inflate(getLayout(), container, false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(!selectedBarCode.isNullOrEmpty()){
+            edit_tv_barcode.text = selectedBarCode
+        }
     }
 
     override fun getLayout():Int{
@@ -117,7 +127,12 @@ class EditFragment : BaseFragment() {
                 item.beli = getFormattedNumber(edit_et_sell?.text.toString())
                 item.jual = getFormattedNumber(edit_et_buy?.text.toString())
                 item.distributor = edit_et_supplier_name?.text.toString()
-                item.barCodeId =  edit_tv_barcode?.text.toString()
+
+                var barcodeId =  edit_tv_barcode?.text.toString()
+                if(barcodeId.trim().equals("---")){
+                    barcodeId = ""
+                }
+                item.barCodeId =  barcodeId
                 item.isBookmarked = viewModel.isProductBookmarked()
 
                 viewModel.saveProductData(item)
@@ -132,8 +147,39 @@ class EditFragment : BaseFragment() {
             showDeleteDialog()
         }
 
+        edit_barcode_btn?.setOnClickListener {
+            if ( PermisionHelper.hasPermissions(requireContext(), *AppConstant.CAMERA_PERMISION)) {
+                BarcodeActivity.launchBarcodeActivity(this)
+            } else {
+                requestPermissions( AppConstant.CAMERA_PERMISION, 1)
+            }
+        }
+
         addCurrencyTextWatcher(edit_et_sell)
         addCurrencyTextWatcher(edit_et_buy)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when (requestCode) {
+            1 -> {
+                edit_barcode_btn?.callOnClick()
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            BarcodeActivity.BARCODE_RESULT -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    data?.extras?.getString("barcode")?.let {
+                        selectedBarCode = it
+                    }
+                }
+            }
+        }
     }
 
     override fun initObserver(){
