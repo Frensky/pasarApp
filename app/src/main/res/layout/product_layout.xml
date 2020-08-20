@@ -40,13 +40,13 @@
             android:id="@+id/segment_beli"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nilai Beli"/>
+            android:text="Harga Beli"/>
 
         <RadioButton
             android:id="@+id/segment_jual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nilai Jual"/>
+            android:text="Harga Jual"/>
     </com.creageek.segmentedbutton.SegmentedButton>
 
 
