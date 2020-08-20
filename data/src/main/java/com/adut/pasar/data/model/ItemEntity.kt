@@ -39,6 +39,6 @@ data class ItemEntity(
     var notes: String? = ""
 
 ) : ModelEntity<Item> {
-    override fun mapToEntity() = Item(id, isBookMark?:false,title ?: "", quantity ?:0,quantityType ?:"",sellPrice ?: 0, buyPrice ?: 0, distributor ?:"",barCodeId ?: "")
+    override fun mapToEntity() = Item(id, isBookMark?:false,title ?: "", quantity ?:0,quantityType ?:"",sellPrice ?: 0, buyPrice ?: 0, distributor ?:"",barCodeId ?: "",notes ?: "")
 }
 

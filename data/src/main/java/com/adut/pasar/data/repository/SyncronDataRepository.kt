@@ -22,8 +22,8 @@ class SyncronDataRepository @Inject constructor(
         const val TITLE_INDEX = 1
         const val QTY_INDEX = 2
         const val QTY_TYPE_INDEX = 3
-        const val SELL_PRICE_INDEX = 4
-        const val BUY_PRICE_INDEX = 5
+        const val BUY_PRICE_INDEX = 4
+        const val SELL_PRICE_INDEX = 5
         const val NOTES_INDEX = 6
         const val SUPLIER_NAME_INDEX = 7
         const val SUPLIER_CONTACT_INDEX = 8
@@ -80,13 +80,13 @@ class SyncronDataRepository @Inject constructor(
                     }
                     result.quantityType = type
                 }
-                SELL_PRICE_INDEX -> {
-                    val data = formatToNumber(it).toLong()
-                    result.sellPrice = data
-                }
                 BUY_PRICE_INDEX -> {
                     val data = formatToNumber(it).toLong()
                     result.buyPrice = data
+                }
+                SELL_PRICE_INDEX -> {
+                    val data = formatToNumber(it).toLong()
+                    result.sellPrice = data
                 }
                 NOTES_INDEX -> {
                     result.notes = it?.trim()

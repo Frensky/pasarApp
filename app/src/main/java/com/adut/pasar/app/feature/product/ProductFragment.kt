@@ -86,7 +86,7 @@ open class ProductFragment : BaseFragment() {
         })
 
         product_segment?.onSegmentChecked { segmented ->
-            if(segmented.text.equals("Nilai Jual")){
+            if(segmented.text.contains("Jual")){
                 adapter.setPriceType(ItemAdapter.PriceState.JUAL)
             }
             else{
@@ -157,6 +157,7 @@ open class ProductFragment : BaseFragment() {
                 if(it){
                     product_segment?.visibility = View.VISIBLE
                     product_segment.initialCheckedIndex = 0
+                    adapter.setPriceType(ItemAdapter.PriceState.BELI)
                     product_segment.invoke {
 
                     }
