@@ -97,10 +97,21 @@ class EditFragment : BaseFragment() {
         edit_sp_qty_type?.setOnItemSelectedListener(object : OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long
             ) {
-                if(focusToSellText){
+
+                if(i == qtyTypeData.count()-1){
+                   edit_tl_satuan_item.visibility = View.VISIBLE
+                   edit_et_satuan.setText("")
+                   edit_et_satuan.requestFocus()
+                   simulateClick(edit_et_satuan)
+                }
+                else if(focusToSellText){
+                    edit_tl_satuan_item.visibility = View.GONE
                     focusToSellText = false
                     edit_et_sell?.requestFocus()
                     simulateClick(edit_et_sell)
+                }
+                else{
+                    edit_tl_satuan_item.visibility = View.GONE
                 }
             }
 
@@ -122,7 +133,10 @@ class EditFragment : BaseFragment() {
                     }
                 }
                 item.qty = qtyItem
-                val qtyType = edit_sp_qty_type.selectedItem.toString()
+                var qtyType = edit_sp_qty_type.selectedItem.toString()
+                if(edit_sp_qty_type.selectedItem.toString().toLowerCase().equals("lainnya")){
+                     qtyType = edit_et_satuan.text.toString()
+                }
                 item.qtyType = qtyType
                 item.beli = getFormattedNumber(edit_et_sell?.text.toString())
                 item.jual = getFormattedNumber(edit_et_buy?.text.toString())
@@ -203,6 +217,7 @@ class EditFragment : BaseFragment() {
         viewModel.quantityTypeLiveData.observe(this, Observer {
             if(it != null){
                 qtyTypeData.clear()
+                it.add("lainnya")
                 qtyTypeData.addAll(it)
                 adapter.notifyDataSetChanged()
             }
@@ -262,6 +277,12 @@ class EditFragment : BaseFragment() {
                        val qtyIndex = qtyTypeData.indexOf(qtyType)
                        if(qtyIndex >= 0){
                            edit_sp_qty_type?.setSelection(qtyIndex)
+                           edit_tl_satuan_item.visibility = View.GONE
+                       }
+                       else{
+                           edit_sp_qty_type?.setSelection(qtyTypeData.count()-1)
+                           edit_tl_satuan_item.visibility = View.VISIBLE
+                           edit_et_satuan.setText(qtyType)
                        }
                    }
 

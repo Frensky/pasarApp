@@ -150,6 +150,37 @@
             android:textColor="@color/color_text_red"/>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edit_tl_satuan_item"
+            android:theme="@style/TextInputLayoutAppearance"
+            app:hintTextAppearance="@style/HintText"
+            app:errorTextAppearance="@style/ErrorText"
+            app:boxBackgroundColor="@color/white_bg"
+            android:textColorHint="@color/dark_gray"
+            android:layout_marginTop="@dimen/form_top_margin"
+            android:hint="Masukan Jenis Satuan lainnya"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_et_satuan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:paddingBottom="12dp"
+                android:layout_marginBottom="-5dp"
+                android:text=""
+                android:capitalize="none"
+                android:textColor="@color/color_text_dark"
+                android:textSize="@dimen/edit_text"
+                android:textColorHint="@color/color_text_light"
+                android:imeOptions="actionNext"
+                >
+            </com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/edit_tl_sell"
             android:theme="@style/TextInputLayoutAppearance"
             app:hintTextAppearance="@style/HintText"
