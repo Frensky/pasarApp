@@ -74,6 +74,12 @@ class SyncronFragment : OpenFileFragment() {
             }
         })
 
+        viewModel.syncronViewState.observe(this,Observer{data ->
+          if(data?.data?.isSuccess ?: false){
+              dashboardViewModel.reloadProductPage()
+          }
+        })
+
         viewModel.showCSVToast.observe(this,Observer{data ->
             Toast.makeText(requireContext(),data,Toast.LENGTH_LONG).show()
         })

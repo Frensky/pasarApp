@@ -48,7 +48,9 @@ class SyncronDataRepository @Inject constructor(
                     else{
                         if(lines != 0){
                             val items : ItemEntity = inputItemData(nextLine!!)
-                            itemDAO.saveItem(items)
+                            if(!items.title.isNullOrEmpty()){
+                                itemDAO.saveItem(items)
+                            }
                         }
                         lines = lines + 1
                     }
@@ -67,6 +69,9 @@ class SyncronDataRepository @Inject constructor(
         var indexz = 0
         for(it in data!!){
             when(indexz){
+                ID_INDEX -> {
+                    result.id =  formatToNumber(it).toLong()
+                }
                 TITLE_INDEX -> {
                     result.title = it?.trim()
                 }
@@ -108,19 +113,33 @@ class SyncronDataRepository @Inject constructor(
             indexz = indexz + 1
         }
 
+        result.id
         return result
     }
 
     private fun formatToNumber(input : String):Int{
         var result = 0
-        var data = input.replace(".","")
+
+        var data = input
+
+        if(input.length >=3){
+            val checkLast = input.takeLast(3)
+            if(checkLast.equals(",00")){
+                data = input.take(input.length - 3)
+            }
+        }
+
+        data = data.replace(".","").replace(",","")
         data = data.trim()
-        try{
-            result = data.toInt()
+        if(!data.isNullOrEmpty()){
+            try{
+                result = data.toInt()
+            }
+            catch(e:java.lang.Exception){
+                e.printStackTrace()
+            }
         }
-        catch(e:java.lang.Exception){
-            e.printStackTrace()
-        }
+
         return result
     }
 
